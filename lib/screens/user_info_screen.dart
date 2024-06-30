@@ -35,35 +35,38 @@ class UserInfoScreenState extends State<UserInfoScreen> {
     final Color backgroundColor = _isDarkMode ? Colors.black87 : Colors.white; // Dynamic background color
     final Color textColor = _isDarkMode ? Colors.white : Colors.black; // Dynamic text color for accessibility
     
-    return Scaffold(
-      backgroundColor: _isDarkMode ? CustomColors.firebaseNavy : Colors.white,
-      appBar: AppBar(
-      title: Text(
-        'Ink Wander',
-        style: TextStyle(color: textColor), // Use dynamic text color
-      ),
-      centerTitle: true,
-      leading: IconButton(
-        icon: Icon(_isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
-        color: textColor,
-        onPressed:() {
-          setState(() {
-            _isDarkMode = !_isDarkMode;
-          });
-        },
-      ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.person_2_rounded), // Replace with your desired icon
-          color: textColor,
-          onPressed: _showUserInfoPopup,
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: _isDarkMode ? CustomColors.firebaseNavy : Colors.white,
+        appBar: AppBar(
+        title: Text(
+          'Ink Wander',
+          style: TextStyle(color: textColor), // Use dynamic text color
         ),
-      ],
-      backgroundColor: backgroundColor, // Use dynamic background color
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(_isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
+          color: textColor,
+          onPressed:() {
+            setState(() {
+              _isDarkMode = !_isDarkMode;
+            });
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person_2_rounded), // Replace with your desired icon
+            color: textColor,
+            onPressed: _showUserInfoPopup,
+          ),
+        ],
+        backgroundColor: backgroundColor, // Use dynamic background color
+        ),
+        body: SafeArea(
+        child: _buildCenterText(), // Use the reusable widget
       ),
-      body: SafeArea(
-      child: _buildCenterText(), // Use the reusable widget
-    ),
+      ),
     );
   }
 

@@ -126,7 +126,7 @@ class _UserInfoPopupState extends State<UserInfoPopup> {
                           _isSigningOut = false;
                         });
                         Navigator.of(context)
-                            .pushReplacement(_routeToSignInScreen());
+                            .push(_routeToSignInScreen());
                       },
                     child: const Padding(
                       padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
