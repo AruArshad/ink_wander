@@ -1,6 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:ink_wander/utils/authentication.dart';
@@ -62,9 +61,6 @@ class _LoginState extends State<Login> {
                 future: Authentication.initializeFirebase(context: context),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    if (kDebugMode) {
-                      print(snapshot);
-                    }
                     return const Text('Error initializing Firebase');
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     return const GoogleSignInButton();

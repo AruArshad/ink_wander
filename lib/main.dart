@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ink_wander/widgets/app_bar.dart';
 import 'screens/onboarding_screen.dart';
 import 'package:ink_wander/screens/login.dart';
 
@@ -24,11 +25,11 @@ class _MainAppState extends State<MainApp> {
       debugShowCheckedModeBanner: false,
       theme: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Ink Wander'),
-          leading: IconButton(
-            icon: Icon(_isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
-            onPressed: () {
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight), // Adjust height if needed
+          child: MyAppBar(
+            isDarkMode: _isDarkMode,
+            onToggleDarkMode: () {
               setState(() {
                 _isDarkMode = !_isDarkMode;
               });

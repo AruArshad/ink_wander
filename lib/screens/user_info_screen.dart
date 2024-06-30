@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:ink_wander/utils/authentication.dart';
 import 'package:ink_wander/screens/login.dart';
-import 'package:ink_wander/widgets/app_bar_title.dart';
+import 'package:ink_wander/widgets/app_bar.dart';
 
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({super.key, required User user})
@@ -18,6 +18,7 @@ class UserInfoScreen extends StatefulWidget {
 class UserInfoScreenState extends State<UserInfoScreen> {
   late User _user;
   bool _isSigningOut = false;
+   bool _isDarkMode = true;
 
   Route _routeToSignInScreen() {
     return PageRouteBuilder(
@@ -48,12 +49,19 @@ class UserInfoScreenState extends State<UserInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.firebaseNavy,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: CustomColors.firebaseNavy,
-        title: const AppBarTitle(),
-      ),
+      backgroundColor: _isDarkMode ? CustomColors.firebaseNavy : Colors.white,
+      appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight), // Adjust height if needed
+          child: MyAppBar(
+            isDarkMode: _isDarkMode,
+            onToggleDarkMode: () {
+              setState(() {
+                _isDarkMode = !_isDarkMode;
+              });
+            },
+    
+          ),
+        ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -89,18 +97,34 @@ class UserInfoScreenState extends State<UserInfoScreen> {
                       ),
                     ),
               const SizedBox(height: 16.0),
+              _isDarkMode ?
               const Text(
                 'Hello',
                 style: TextStyle(
-                  color: CustomColors.firebaseGrey,
+                  color:  CustomColors.firebaseGrey,
+                  fontSize: 26,
+                ),
+              ) :
+              const Text(
+                'Hello',
+                style: TextStyle(
+                  color: Colors.black,
                   fontSize: 26,
                 ),
               ),
               const SizedBox(height: 8.0),
+              _isDarkMode ?
               Text(
                 _user.displayName!,
                 style: const TextStyle(
                   color: CustomColors.firebaseYellow,
+                  fontSize: 26,
+                ),
+              ) :
+              Text(
+                _user.displayName!,
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 29, 185, 81),
                   fontSize: 26,
                 ),
               ),
@@ -114,10 +138,18 @@ class UserInfoScreenState extends State<UserInfoScreen> {
                 ),
               ),
               const SizedBox(height: 24.0),
+              _isDarkMode ?
               Text(
                 'You are now signed in using your Google account. To sign out of your account, click the "Sign Out" button below.',
                 style: TextStyle(
                     color: CustomColors.firebaseGrey.withOpacity(0.8),
+                    fontSize: 14,
+                    letterSpacing: 0.2),
+              ) : 
+              const Text(
+                'You are now signed in using your Google account. To sign out of your account, click the "Sign Out" button below.',
+                style: TextStyle(
+                    color: Colors.black,
                     fontSize: 14,
                     letterSpacing: 0.2),
               ),
