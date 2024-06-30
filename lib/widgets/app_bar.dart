@@ -20,6 +20,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         'Ink Wander',
         style: TextStyle(color: textColor), // Use dynamic text color
       ),
+      centerTitle: true,
       leading: IconButton(
         icon: Icon(isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
         color: textColor,
