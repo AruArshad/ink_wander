@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:ink_wander/sign_in.dart';
-import 'package:ink_wander/sign_up.dart';
-import 'onboarding_screen.dart';
+import 'screens/onboarding_screen.dart';
+import 'package:ink_wander/screens/login.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const MainApp()); 
 }
+
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -20,11 +20,12 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'InkWander',
+      title: 'Ink Wander',
+      debugShowCheckedModeBanner: false,
       theme: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('InkWander'),
+          title: const Text('Ink Wander'),
           leading: IconButton(
             icon: Icon(_isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
             onPressed: () {
@@ -37,8 +38,7 @@ class _MainAppState extends State<MainApp> {
         body: const OnboardingScreen(),
       ),
       routes: {
-        '/signin': (context) => const SignInPage(),
-        '/signup': (context) => const SignUpPage(),
+        '/login': (context) => const Login(),
       },
     );
   }
