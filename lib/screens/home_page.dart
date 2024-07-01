@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:ink_wander/widgets/user_info_popup.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required User user});
+  const HomePage({super.key});
 
   @override
   HomePageState createState() => HomePageState();
@@ -22,8 +23,7 @@ class HomePageState extends State<HomePage> {
      
   @override
   void initState() {
-    // _user = widget._user;
-
+    
     super.initState();
   }
 
@@ -35,6 +35,38 @@ class HomePageState extends State<HomePage> {
     
     return PopScope(
       canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return; // Avoid unnecessary processing if pop wasn't attempted
+        final shouldExit = await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: backgroundColor,
+            titleTextStyle: TextStyle(color: textColor, fontSize: 23, fontWeight: FontWeight.bold),
+            contentTextStyle: TextStyle(color: textColor, fontSize: 19),
+            title: const Text('Exit App'),
+            content: const Text('Are you sure you want to exit Ink Wander?'),
+            actions: [
+              TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: textColor,
+                ),
+                onPressed: () => Navigator.pop(context, false), // Cancel exit
+                child: const Text('Cancel', style: TextStyle(fontSize: 17),),
+              ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: textColor,
+                ),
+                onPressed: () => Navigator.pop(context, true), // Confirm exit
+                child: const Text('Yes', style: TextStyle(fontSize: 17),),
+              ),
+            ],
+          ),
+        );
+        if (shouldExit ?? false) {
+          exitApp(); // Exit the app if confirmed
+        }
+      },
       child: Scaffold(
         backgroundColor: _isDarkMode ? CustomColors.firebaseNavy : Colors.white,
         appBar: AppBar(
@@ -61,9 +93,12 @@ class HomePageState extends State<HomePage> {
         ],
         backgroundColor: backgroundColor, // Use dynamic background color
         ),
-        body: SafeArea(
-        child: _buildCenterText(), // Use the reusable widget
-      ),
+        body: PopScope(
+          canPop: false,
+          child: SafeArea(
+          child: _buildCenterText(), // Use the reusable widget
+                ),
+        ),
       ),
     );
   }
@@ -80,6 +115,13 @@ class HomePageState extends State<HomePage> {
       ),
     );
 }
+
+void exitApp() async {
+    // Implement app exit logic here (e.g., close connections, save data)
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    SystemNavigator.pop(); // Explicitly pop app from system
+}
+
 }
 
 

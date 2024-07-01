@@ -46,9 +46,7 @@ class GoogleSignInButtonState extends State<GoogleSignInButton> {
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => HomePage(
-                        user: user,
-                      ),
+                      builder: (context) => const HomePage(),
                     ),
                   );
                 }

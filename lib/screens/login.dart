@@ -18,7 +18,7 @@ class _LoginState extends State<Login> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: CustomColors.firebaseNavy,
+        backgroundColor: const Color.fromARGB(31, 75, 65, 65),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(
@@ -42,19 +42,12 @@ class _LoginState extends State<Login> {
                           child: const Image(
                            image: AssetImage('assets/images/signin.jpeg'), 
                            width: double.infinity, 
-                           height: 400, 
+                           height: 450, 
                            fit: BoxFit.cover,	
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        'Ink Wander',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 99, 190, 202),
-                          fontSize: 40,
-                        ),
-                      ),
+                
                       const SizedBox(height: 10),
                     ],
                   ),
