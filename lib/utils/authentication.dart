@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ink_wander/screens/user_info_screen.dart';
+import 'package:ink_wander/screens/home_page.dart';
 
 class Authentication {
 
@@ -29,7 +29,7 @@ class Authentication {
     if (user != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => UserInfoScreen(
+          builder: (context) => HomePage(
             user: user,
           ),
         ),

@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:ink_wander/widgets/app_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoard {
   final String image;
@@ -25,6 +27,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   late PageController _pageController;
   int _pageIndex = 0;
   Timer? _timer;
+  bool _isDarkMode = true;
 
   final List<OnBoard> demoData = [
     OnBoard(
@@ -87,6 +90,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 @override
 Widget build(BuildContext context) {
   return Scaffold(
+    backgroundColor: _isDarkMode ? Colors.black : Colors.white,
+    appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight), // Adjust height if needed
+          child: MyAppBar(
+            isDarkMode: _isDarkMode,
+            onToggleDarkMode: () {
+              setState(() {
+                _isDarkMode = !_isDarkMode;
+              });
+            },
+          ),
+    ),
     body: Stack(
       children: [
         PageView.builder(
@@ -115,7 +130,8 @@ Widget build(BuildContext context) {
                   const SizedBox(height: 20),
                   Text(
                     demoData[index].title,
-                    style: const TextStyle(
+                    style: TextStyle(
+                      color: _isDarkMode ? Colors.white : Colors.black,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
@@ -124,6 +140,10 @@ Widget build(BuildContext context) {
                   Text(
                     demoData[index].description,
                     textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: _isDarkMode ? Colors.white : Colors.black,
+                      fontSize: 14,
+                    ),
                   ),
                 ],
               ),
@@ -154,6 +174,7 @@ Widget build(BuildContext context) {
               ElevatedButton(
                 onPressed: () {
                   if (_pageIndex == demoData.length - 1) {
+                    SharedPreferences.getInstance().then((prefs) => prefs.setBool('isFirstLaunch', false));
                     _goToSignIn();
                   } else {
                     _pageController.nextPage(

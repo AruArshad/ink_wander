@@ -3,16 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:ink_wander/widgets/user_info_popup.dart';
 
-class UserInfoScreen extends StatefulWidget {
-  const UserInfoScreen({super.key, required User user});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key, required User user});
 
   @override
-  UserInfoScreenState createState() => UserInfoScreenState();
+  HomePageState createState() => HomePageState();
 }
 
-class UserInfoScreenState extends State<UserInfoScreen> {
-  // late User _user;
-  // bool _isSigningOut = false;
+class HomePageState extends State<HomePage> {
   bool _isDarkMode = true;
 
   void _showUserInfoPopup() {

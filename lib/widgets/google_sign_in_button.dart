@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ink_wander/utils/authentication.dart';
-import 'package:ink_wander/screens/user_info_screen.dart';
+import 'package:ink_wander/screens/home_page.dart';
 
 class GoogleSignInButton extends StatefulWidget {
   const GoogleSignInButton({super.key});
@@ -46,7 +46,7 @@ class GoogleSignInButtonState extends State<GoogleSignInButton> {
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => UserInfoScreen(
+                      builder: (context) => HomePage(
                         user: user,
                       ),
                     ),
