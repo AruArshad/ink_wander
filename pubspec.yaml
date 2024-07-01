@@ -11,6 +11,7 @@ dependencies:
   firebase_core: ^3.1.1
   flutter:
     sdk: flutter
+  flutter_native_splash: ^2.4.0
   google_sign_in: ^6.2.1
   shared_preferences: ^2.2.3
 
@@ -23,3 +24,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+
+flutter_native_splash:
+  background_image: "assets/images/splash.jpeg"  # Path to your splash image
+  android: true                                 # Enable splash screen for Android
+  ios: true                                     # Enable splash screen for iOS
+  web: false                                    # Disable splash screen for web (optional)
+
