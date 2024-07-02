@@ -7,13 +7,14 @@ import 'screens/onboarding_screen.dart';
 import 'package:ink_wander/screens/login.dart';
 
 void main() async{
+
   WidgetsFlutterBinding.ensureInitialized(); // Wait for preferences to initialize
   await Firebase.initializeApp(); // Initialize Firebase
 
   final prefs = await SharedPreferences.getInstance(); // Get SharedPreferences instance
   final isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true; // Check for key or set default
   final isLoggedIn = await _isLoggedIn();
-
+  
   runApp(MainApp(isFirstLaunch: isFirstLaunch, isLoggedIn: isLoggedIn)); // Pass isFirstLaunch to MyApp
 }
 
