@@ -1,27 +1,29 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ink_wander/models/prompts.dart';
-import 'package:ink_wander/res/custom_colors.dart';
 import 'package:ink_wander/services/favorites_firestore.dart';
 
 class TextDisplay extends StatefulWidget {
 
-  const TextDisplay({super.key, required this.prompt, required this.category});
+  const TextDisplay({super.key, required this.prompt, required this.category, this.isFavorite = false});
 
   final String prompt;
   final String category;
+  final bool isFavorite;
   
   @override
   State<TextDisplay> createState() => _TextDisplayState();
 }
 
 class _TextDisplayState extends State<TextDisplay> {
-  late String _generatedId;
-  bool _isFavorited = false;
+  late bool _isFavorited;
   bool _isDarkMode = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _isFavorited = widget.isFavorite;
+  }
 
   void _onFavoriteButtonPressed() async {
     final userId = FirebaseAuth.instance.currentUser?.uid;
@@ -48,10 +50,15 @@ class _TextDisplayState extends State<TextDisplay> {
         );
 
         if (shouldRemove ?? false) {
-          // User confirmed removal
-        //  removeFromFavorites(userId, _generatedId);
-         // ignore: use_build_context_synchronously
-         await FavoritesFirestore.removeFromFavorites(context, userId, _generatedId);
+
+          final favoritesFirestore = FavoritesFirestore();
+          // ignore: use_build_context_synchronously
+          await favoritesFirestore.deleteFavoritePrompt(context, userId);
+         
+          // ignore: use_build_context_synchronously
+          // await FavoritesFirestore.removeFromFavorites(context, userId, _generatedId);
+         
+        //  await FavoritesFirestore.removeFromFavorites(context, userId, _generatedId);
           setState(() {
             _isFavorited = false;
           });
@@ -64,8 +71,9 @@ class _TextDisplayState extends State<TextDisplay> {
         }
       } else {
 
-        // addToFavorites(userId, widget.prompt, widget.category);
-        _generatedId = await FavoritesFirestore.addToFavorites(userId, widget.prompt, widget.category);
+        if (!_isFavorited) {
+          await FavoritesFirestore.addToFavorites(userId, widget.prompt, widget.category);
+        }
 
         setState(() {
           _isFavorited = true;

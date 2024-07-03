@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:ink_wander/screens/text_display.dart';
 import 'package:ink_wander/services/category_prompt.dart';
+import 'package:ink_wander/services/favorites_firestore.dart';
 import 'package:ink_wander/services/home_prompt_generator.dart';
 import 'package:ink_wander/widgets/category_card.dart';
 import 'package:ink_wander/widgets/user_info_popup.dart';
@@ -163,6 +164,14 @@ class HomePageState extends State<HomePage> {
           },
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite), // Replace with your desired icon
+            color: textColor,
+            onPressed: () async {
+              final favoritesFirestore = FavoritesFirestore();
+              favoritesFirestore.showFavoritePromptsDialog(context);
+            } 
+          ),
           IconButton(
             icon: const Icon(Icons.person_2_rounded), // Replace with your desired icon
             color: textColor,
