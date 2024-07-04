@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ink_wander/models/prompts.dart';
 import 'package:ink_wander/screens/text_display.dart';
+import 'package:ink_wander/widgets/favorite_prompt_tile.dart';
 
 class FavoritesFirestore {
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -22,38 +23,7 @@ class FavoritesFirestore {
     return generatedId;
   }
 
-  static Future<void> removeFromFavorites(BuildContext context, String userId, String generatedId) async {
-    final docRef = firestore.collection('prompts').doc(generatedId);
-
-    try {
-      
-      await docRef.delete();
-
-      if (userId == FirebaseAuth.instance.currentUser?.uid) {
-        // Assuming you have a way to update the _isFavorited state in your widget
-        // (consider using a state management solution like Provider or BLoC)
-        // setState(() => _isFavorited = false);
-      }
-
-      // Show success snackbar
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Prompt removed from favorites!'),
-        ),
-      );
-    } on FirebaseException catch (e) {
-      
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error: ${e.message}'),
-        ),
-      );
-    }
-  }
-
-  Future<void> showFavoritePromptsDialog(BuildContext context) async {
+  Future<void> showFavoritePromptsDialog(BuildContext context, bool isDarkMode) async {
     final userId = FirebaseAuth.instance.currentUser?.uid;
 
     if (userId == null) {
@@ -84,15 +54,21 @@ class FavoritesFirestore {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
+          backgroundColor: isDarkMode ? Colors.black : Colors.white,
           child: SizedBox(
-            height: 300,
+            width: double.infinity,
+            height: 700,
             child: Column(
                 children: [
-                  Padding(
+                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
                       'Your Favorite Prompts',
-                      style: Theme.of(context).textTheme.headlineSmall,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkMode ? Colors.white : Colors.black,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -101,43 +77,23 @@ class FavoritesFirestore {
                       itemBuilder: (context, index) {
                         final prompt = favorites[index];
                         final favPrompt = fullPrompt;
-                          return Card(
-                            child: ListTile(
-                              tileColor: const Color.fromARGB(255, 62, 117, 124),
-                              leading: Icon(prompt.isFavorite ? Icons.star : Icons.star_border_outlined),
-                              title: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: prompt.prompt,
-                                      style: const TextStyle(
-                                        fontSize: 16.0,
-                                        color: Colors.white,
-                                        overflow: TextOverflow.ellipsis, 
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: '\nCategory: ${prompt.category}',
-                                      style: const TextStyle( // Optional: style the prompt text
-                                        fontSize: 16.0,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(30.0),
+                            child: FavoritePromptTile(
+                              prompt: prompt,
+                              isDarkMode: isDarkMode,
                               onTap: () async {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => TextDisplay(
-                                        prompt: favPrompt,
-                                        category: prompt.category,
-                                        isFavorite: prompt.isFavorite,
-                                      ),
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TextDisplay(
+                                      prompt: favPrompt,
+                                      category: prompt.category,
+                                      isFavorite: prompt.isFavorite,
                                     ),
-                                  );
+                                  ),
+                                );
                               },
                             ),
                           );
@@ -152,7 +108,7 @@ class FavoritesFirestore {
                       child: ElevatedButton(
                         onPressed: () => Navigator.pop(context),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.teal,
+                          backgroundColor: isDarkMode? const Color.fromARGB(255, 179, 53, 53) : const Color.fromARGB(255, 230, 19, 19),
                           foregroundColor: Colors.white,
                         ),
                         child: const Text('Close'),
@@ -178,7 +134,7 @@ class FavoritesFirestore {
     final favorites = querySnapshot.docs.map((doc) {
       final promptData = doc.data();
       final prompt = Prompt.fromMap(promptData);
-      final oneLinePrompt = prompt.prompt.substring(0, 30) + (prompt.prompt.length > 30 ? '...' : ''); // Truncate with ellipsis
+      final oneLinePrompt = prompt.prompt.substring(0, 120) + (prompt.prompt.length > 120 ? '...' : ''); // Truncate with ellipsis
       return prompt.copyWith(prompt: oneLinePrompt, ); // Update prompt with truncated version
     }).toList();
 
@@ -203,7 +159,6 @@ class FavoritesFirestore {
     final fullPrompt = promptData['prompt'] as String;
     return fullPrompt;
   }
-
 
   Future<void> deleteFavoritePrompt(BuildContext context, userId) async {
     // Validate user ID presence

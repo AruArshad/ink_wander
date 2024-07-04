@@ -169,7 +169,7 @@ class HomePageState extends State<HomePage> {
             color: textColor,
             onPressed: () async {
               final favoritesFirestore = FavoritesFirestore();
-              favoritesFirestore.showFavoritePromptsDialog(context);
+              favoritesFirestore.showFavoritePromptsDialog(context, _isDarkMode);
             } 
           ),
           IconButton(
