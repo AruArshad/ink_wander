@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CategoryCard extends StatelessWidget {
   final String title;
@@ -36,11 +37,13 @@ class CategoryCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              title,
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-                color: textColor,
+                title,
+                style: GoogleFonts.josefinSans(
+                  textStyle: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                ),
               ),
             ),
             Icon(

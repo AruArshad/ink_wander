@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ink_wander/models/prompts.dart';
 import 'package:ink_wander/screens/text_display.dart';
 import 'package:ink_wander/widgets/favorite_prompt_tile.dart';
@@ -57,17 +58,19 @@ class FavoritesFirestore {
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
           child: SizedBox(
             width: double.infinity,
-            height: 700,
+            height: 650,
             child: Column(
                 children: [
                    Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
-                      'Your Favorite Prompts',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkMode ? Colors.white : Colors.black,
+                      'Your Favorites',
+                      style: GoogleFonts.satisfy(
+                        textStyle: TextStyle(
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
                       ),
                     ),
                   ),
@@ -77,26 +80,26 @@ class FavoritesFirestore {
                       itemBuilder: (context, index) {
                         final prompt = favorites[index];
                         final favPrompt = fullPrompt;
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(30.0),
-                            child: FavoritePromptTile(
-                              prompt: prompt,
-                              isDarkMode: isDarkMode,
-                              onTap: () async {
-                                Navigator.pop(context);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => TextDisplay(
-                                      prompt: favPrompt,
-                                      category: prompt.category,
-                                      isFavorite: prompt.isFavorite,
-                                    ),
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(30.0),
+                          child: FavoritePromptTile(
+                            prompt: prompt,
+                            isDarkMode: isDarkMode,
+                            onTap: () async {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TextDisplay(
+                                    prompt: favPrompt,
+                                    category: prompt.category,
+                                    isFavorite: prompt.isFavorite,
                                   ),
-                                );
-                              },
-                            ),
-                          );
+                                ),
+                              );
+                            },
+                          ),
+                        );
                       },
                     ),
                   ),

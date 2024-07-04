@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ink_wander/widgets/app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,7 +35,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       image: "assets/images/onboarding1.jpeg",
       title: "Embark on a Journey of Words",
       description:
-          "Welcome to InkWander, your daily muse for creative writing. Unleash your imagination with a variety of prompts, story ideas, and poetry themes designed to inspire and overcome writer’s block. Ready to explore? Let’s begin your adventure in ink.",
+          "Welcome to Ink Wander, your daily muse for creative writing. Unleash your imagination with a variety of prompts, story ideas, and poetry themes designed to inspire and overcome writer’s block. Ready to explore? Let’s begin your adventure in ink.",
     ),
     OnBoard(
       image: "assets/images/onboarding2.jpeg",
@@ -46,13 +47,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       image: "assets/images/onboarding3.jpeg",
       title: "Craft Your Story",
       description:
-          "Explore a plethora of story ideas and genres. From romance to mystery, historical to sci-fi, InkWander offers a rich tapestry of themes to weave your narrative masterpiece.",
+          "Explore a plethora of story ideas and genres. From romance to mystery, historical to sci-fi, Ink Wander offers a rich tapestry of themes to weave your narrative masterpiece.",
     ),
     OnBoard(
       image: "assets/images/onboarding4.jpeg",
       title: "Poetry at Your Fingertips",
       description:
-          "Dabble in the art of poetry with a variety of themes and forms. Let InkWander be your guide through sonnets, haikus, free verse, and more. Express your emotions and thoughts in poetic harmony.",
+          "Dabble in the art of poetry with a variety of themes and forms. Let Ink Wander be your guide through sonnets, haikus, free verse, and more. Express your emotions and thoughts in poetic harmony.",
     ),
   ];
 
@@ -130,19 +131,24 @@ Widget build(BuildContext context) {
                   const SizedBox(height: 20),
                   Text(
                     demoData[index].title,
-                    style: TextStyle(
-                      color: _isDarkMode ? Colors.white : Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.lobster(
+                      textStyle: TextStyle(
+                        color: _isDarkMode ? Colors.white : Colors.black,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),
                   Text(
                     demoData[index].description,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: _isDarkMode ? Colors.white : Colors.black,
-                      fontSize: 14,
+                    style: GoogleFonts.slabo27px(
+                    textStyle: TextStyle(
+                        color: _isDarkMode ? Colors.white : Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],

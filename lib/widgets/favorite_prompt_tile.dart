@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ink_wander/models/prompts.dart';
 
 class FavoritePromptTile extends StatelessWidget {
@@ -31,17 +32,21 @@ class FavoritePromptTile extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: prompt.prompt,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: isDarkMode ? Colors.white : Colors.black, // Text color based on darkMode
-                      overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.sora(
+                      textStyle: TextStyle(
+                        fontSize: 16.0,
+                        color: isDarkMode ? Colors.white : Colors.black, // Text color based on darkMode
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                   TextSpan(
                     text: '\n\nCategory: ${prompt.category}',
-                    style: TextStyle(
-                      fontSize: 17.0,
-                      color: isDarkMode ? Colors.white : Colors.black, // Text color based on darkMode
+                    style: GoogleFonts.margarine(
+                      textStyle: TextStyle(
+                        fontSize: 17.0,
+                        color: isDarkMode ? Colors.white : Colors.black, // Text color based on darkMode
+                      ),
                     ),
                   ),
                 ],

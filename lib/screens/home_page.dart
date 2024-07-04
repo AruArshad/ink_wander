@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:ink_wander/screens/text_display.dart';
 import 'package:ink_wander/services/category_prompt.dart';
@@ -23,6 +24,7 @@ class HomePageState extends State<HomePage> {
   String? _generatedPrompt = '';
   // ignore: unused_field
   bool _isRefreshing = false;
+  bool _isLoading = false;
 
   void _showUserInfoPopup() {
     showDialog(
@@ -151,7 +153,9 @@ class HomePageState extends State<HomePage> {
         appBar: AppBar(
         title: Text(
           'Ink Wander',
-          style: TextStyle(color: textColor), // Use dynamic text color
+          style: GoogleFonts.margarine(
+            textStyle: TextStyle(color: textColor), // Use dynamic text color
+          ),
         ),
         centerTitle: true,
         leading: IconButton(
@@ -165,12 +169,23 @@ class HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.favorite), // Replace with your desired icon
+            icon: 
+            _isLoading ? 
+               CircularProgressIndicator(  
+                valueColor: AlwaysStoppedAnimation(textColor),
+                strokeWidth: 2.0,) 
+            : const Icon(Icons.favorite),
             color: textColor,
             onPressed: () async {
+              setState(() { 
+                _isLoading = true;
+              });
               final favoritesFirestore = FavoritesFirestore();
-              favoritesFirestore.showFavoritePromptsDialog(context, _isDarkMode);
-            } 
+              await favoritesFirestore.showFavoritePromptsDialog(context, _isDarkMode);
+              setState(() { 
+                _isLoading = false;
+              });
+            },
           ),
           IconButton(
             icon: const Icon(Icons.person_2_rounded), // Replace with your desired icon
@@ -189,37 +204,60 @@ class HomePageState extends State<HomePage> {
                 children: [
                   // Hero Section with Daily Prompt (dummy for now)
                     Container(
-                  height: 200,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/hero_background.jpeg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Stack(
-                    children: [
-                      // Semi-transparent overlay
-                      Container(
-                        color: _isDarkMode ? Colors.black.withOpacity(0.4) : Colors.white.withOpacity(0.5), // Adjust opacity as needed
+                    height: 200,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: const AssetImage('assets/images/hero_background.jpeg'),
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.multiply), // Subtle darkening effect
                       ),
-                      Center(
-                        child: _generatedPrompt == null
-                            ? CircularProgressIndicator(color: textColor) // Show progress indicator
-                            : Text(
+                    ),
+                    child: Stack(
+                      children: [
+                        // Gradient overlay for a more modern look
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: _isDarkMode
+                                ? [
+                                    const Color(0xFF2196F3).withOpacity(0.6), // Deep Purple Accent
+                                    const Color(0xFF1976D2).withOpacity(0.6), // Indigo Accent
+                                  ]
+                                : [
+                                    Colors.lightBlueAccent.withOpacity(0.6),
+                                    Colors.lightGreenAccent.withOpacity(0.6),
+                                  ],
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: _generatedPrompt == null
+                              ? CircularProgressIndicator(color: textColor) // Show progress indicator
+                              : Text(
                                 _generatedPrompt!,
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: textColor,
+                                style: GoogleFonts.lora(
+                                  textStyle: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: _isDarkMode ? FontWeight.bold : FontWeight.w600, // Adjust font weight for dark/light mode
+                                    color: _isDarkMode ? Colors.white : Colors.black, // Adjust text color for dark/light mode
+                                    shadows: [
+                                        Shadow(
+                                            offset: const Offset(2.0, 2.0),
+                                            blurRadius: 4.0,
+                                            color: Colors.black.withOpacity(0.2), // Adjust shadow color for dark mode
+                                        ),
+                                    ],
+                                  ),
                                 ),
                                 textAlign: TextAlign.center,
-                              ),
-                      ),
-                    ],
+                            ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-          
-                const SizedBox(height: 20),
+                  const SizedBox(height: 20),
           
                   // Category Cards
                   Padding(

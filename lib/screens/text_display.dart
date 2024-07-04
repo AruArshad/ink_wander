@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ink_wander/services/favorites_firestore.dart';
 
 class TextDisplay extends StatefulWidget {
@@ -110,7 +111,10 @@ class _TextDisplayState extends State<TextDisplay> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: backgroundColor,
-        title: Text("Ink Wander", style: TextStyle(color: textColor),),
+        title: Text("Ink Wander", style: GoogleFonts.margarine(
+            textStyle: TextStyle(color: textColor), // Use dynamic text color
+          ),
+        ),
         leading: IconButton(  // Change back button color
           icon: Icon(Icons.arrow_back, color: textColor),
           onPressed: () => Navigator.pop(context),
@@ -144,9 +148,12 @@ class _TextDisplayState extends State<TextDisplay> {
         child: Center(
           child: Text(
             widget.prompt, 
-            style: TextStyle(color: textColor, 
-            fontSize: 17,
-            fontFamily: 'OpenSans',)),
+            style: GoogleFonts.sora(
+              textStyle: TextStyle(color: textColor, 
+              fontSize: 16,
+              ),
+            ),
+          ),
         ),
       ),
     );
