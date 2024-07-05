@@ -88,7 +88,7 @@ class HomePageState extends State<HomePage> {
         // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
-          builder: (context) => TextDisplay(prompt: generatedPrompt, category: _selectedCategory),
+          builder: (context) => TextDisplay(prompt: generatedPrompt, category: _selectedCategory, isDarkMode: _isDarkMode),
         ),
       );
     } else {
@@ -226,8 +226,8 @@ class HomePageState extends State<HomePage> {
                                     const Color(0xFF1976D2).withOpacity(0.6), // Indigo Accent
                                   ]
                                 : [
-                                    Colors.lightBlueAccent.withOpacity(0.6),
-                                    Colors.lightGreenAccent.withOpacity(0.6),
+                                    Colors.lightBlueAccent.withOpacity(0.7),
+                                    Colors.lightGreenAccent.withOpacity(0.7),
                                   ],
                             ),
                           ),
@@ -241,7 +241,7 @@ class HomePageState extends State<HomePage> {
                                   textStyle: TextStyle(
                                     fontSize: 24,
                                     fontWeight: _isDarkMode ? FontWeight.bold : FontWeight.w600, // Adjust font weight for dark/light mode
-                                    color: _isDarkMode ? Colors.white : Colors.black, // Adjust text color for dark/light mode
+                                    color: _isDarkMode ? Colors.white : Colors.black87, // Adjust text color for dark/light mode
                                     shadows: [
                                         Shadow(
                                             offset: const Offset(2.0, 2.0),
@@ -253,6 +253,22 @@ class HomePageState extends State<HomePage> {
                                 ),
                                 textAlign: TextAlign.center,
                             ),
+                        ),
+                        Positioned(
+                          bottom: 10.0,
+                          right: 8.0, 
+                          child: IconButton(
+                            icon: Icon(Icons.content_copy, color: textColor),
+                            onPressed: () async {
+                              await Clipboard.setData(ClipboardData(text: _generatedPrompt!));
+                              // ignore: use_build_context_synchronously
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Prompt copied to clipboard!'),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),

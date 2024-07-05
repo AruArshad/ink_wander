@@ -6,11 +6,12 @@ import 'package:ink_wander/services/favorites_firestore.dart';
 
 class TextDisplay extends StatefulWidget {
 
-  const TextDisplay({super.key, required this.prompt, required this.category, this.isFavorite = false});
+  const TextDisplay({super.key, required this.prompt, required this.category, this.isFavorite = false, required this.isDarkMode});
 
   final String prompt;
   final String category;
   final bool isFavorite;
+  final bool isDarkMode;
   
   @override
   State<TextDisplay> createState() => _TextDisplayState();
@@ -24,6 +25,7 @@ class _TextDisplayState extends State<TextDisplay> {
   void initState() {
     super.initState();
     _isFavorited = widget.isFavorite;
+    _isDarkMode = widget.isDarkMode;
   }
 
   void _onFavoriteButtonPressed() async {
@@ -117,7 +119,9 @@ class _TextDisplayState extends State<TextDisplay> {
         ),
         leading: IconButton(  // Change back button color
           icon: Icon(Icons.arrow_back, color: textColor),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         actions: [
           IconButton(
