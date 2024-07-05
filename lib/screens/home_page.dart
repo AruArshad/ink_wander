@@ -3,12 +3,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ink_wander/api_key.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:ink_wander/screens/text_display.dart';
 import 'package:ink_wander/services/category_prompt.dart';
 import 'package:ink_wander/services/favorites_firestore.dart';
+import 'package:ink_wander/services/generated_custom_prompt.dart';
 import 'package:ink_wander/services/home_prompt_generator.dart';
 import 'package:ink_wander/widgets/category_card.dart';
+import 'package:ink_wander/widgets/custom_prompt_form.dart';
 import 'package:ink_wander/widgets/user_info_popup.dart';
 
 class HomePage extends StatefulWidget {
@@ -89,6 +92,32 @@ class HomePageState extends State<HomePage> {
         context,
         MaterialPageRoute(
           builder: (context) => TextDisplay(prompt: generatedPrompt, category: _selectedCategory, isDarkMode: _isDarkMode),
+        ),
+      );
+    } else {
+      // Handle cases where prompt generation fails (optional)
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Prompt generation failed. Please try again later.'),
+        ),
+      );
+    }
+  }
+
+  void _onCustomPromptGenerated(String prompt, String genre, int wordCount) async {
+    final promptGenerator = CustomPromptGenerator(apiKey: API_KEY);
+    final generatedPrompt = await promptGenerator.generateCustomPrompt(prompt, genre, wordCount);
+    if (generatedPrompt != null) {
+      Navigator.push(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(
+          builder: (context) => TextDisplay(
+            prompt: generatedPrompt,
+            category: genre,
+            isDarkMode: _isDarkMode,
+          ),
         ),
       );
     } else {
@@ -327,13 +356,10 @@ class HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),   
-                  // Featured Prompts List
-                  // FeaturedPromptsList(
-                  //   prompts: prompts,
-                  //   onFavoriteToggle: toggleFavorite,
-                  //   isDarkMode: _isDarkMode, // Pass the callback function
-                  // ),
-          
+                 CustomPromptForm(
+                    onGenerate: _onCustomPromptGenerated,
+                    isDarkMode: _isDarkMode,
+                  ),
                 ],
               ),
             ),
