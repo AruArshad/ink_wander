@@ -21,7 +21,7 @@
 4. Run as an android app
 
 ```
-ink_wander/lib/api-key.dart
+ink_wander/api-key.dart
 
 const API_KEY = 'AIza*************************';
 ```
