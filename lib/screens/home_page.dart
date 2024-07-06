@@ -303,60 +303,87 @@ class HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
-          
+                  const SizedBox(height: 5.0),
                   // Category Cards
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                    child: Wrap(
-                      spacing: 10.0,
-                      runSpacing: 10.0,
-                      children: [
-                        CategoryCard(
-                          title: 'Fiction',
-                          icon: Icons.book,
-                          isSelected: _selectedCategory == 'Fiction',
-                          onTap: () => _onCategoryTap('Fiction', _generatedPrompt!),
-                          isDarkMode: _isDarkMode,
-                        ),
-                        CategoryCard(
-                          title: 'Poetry',
-                          icon: Icons.edit,
-                          isSelected: _selectedCategory == 'Poetry',
-                          onTap: () => _onCategoryTap('Poetry', _generatedPrompt!),
-                          isDarkMode: _isDarkMode,
-                        ),
-                        CategoryCard(
-                          title: 'Non-Fiction',
-                          icon: Icons.newspaper,
-                          isSelected: _selectedCategory == 'Non-Fiction',
-                          onTap: () => _onCategoryTap('Non-Fiction', _generatedPrompt!),
-                          isDarkMode: _isDarkMode,
-                        ), // Add more category cards as needed
-                        CategoryCard(
-                          title: 'Speechwriting',
-                          icon: Icons.speaker,
-                          isSelected: _selectedCategory == 'Speechwriting',
-                          onTap: () => _onCategoryTap('Speechwriting', _generatedPrompt!),
-                          isDarkMode: _isDarkMode,
-                        ),
-                        CategoryCard(
-                          title: 'Playwriting',
-                          icon: Icons.play_arrow,
-                          isSelected: _selectedCategory == 'Playwriting',
-                          onTap: () => _onCategoryTap('Playwriting', _generatedPrompt!),
-                          isDarkMode: _isDarkMode,
-                        ),
-                        CategoryCard(
-                          title: 'Screenwriting',
-                          icon: Icons.theaters,
-                          isSelected: _selectedCategory == 'Screenwriting',
-                          onTap: () => _onCategoryTap('Screenwriting', _generatedPrompt!),
-                          isDarkMode: _isDarkMode,
-                        ),
-                      ],
-                    ),
-                  ),   
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CategoryCard(
+                              title: 'Fiction',
+                              icon: Icons.book,
+                              isSelected: _selectedCategory == 'Fiction',
+                              onTap: () => _onCategoryTap('Fiction', _generatedPrompt!),
+                              isDarkMode: _isDarkMode,
+                            ),
+                          ),
+                          const SizedBox(width: 5.0),
+                          Expanded(
+                            child: CategoryCard(
+                              title: 'Poetry',
+                              icon: Icons.edit,
+                              isSelected: _selectedCategory == 'Poetry',
+                              onTap: () => _onCategoryTap('Poetry', _generatedPrompt!),
+                              isDarkMode: _isDarkMode,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5.0),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CategoryCard(
+                              title: 'Speechwriting',
+                              icon: Icons.speaker,
+                              isSelected: _selectedCategory == 'Speechwriting',
+                              onTap: () => _onCategoryTap('Speechwriting', _generatedPrompt!),
+                              isDarkMode: _isDarkMode,
+                            ),
+                          ),
+                          const SizedBox(width: 5.0),
+                          Expanded(
+                            child: CategoryCard(
+                              title: 'Playwriting',
+                              icon: Icons.play_arrow,
+                              isSelected: _selectedCategory == 'Playwriting',
+                              onTap: () => _onCategoryTap('Playwriting', _generatedPrompt!),
+                              isDarkMode: _isDarkMode,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5.0),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CategoryCard(
+                              title: 'Non-Fiction',
+                              icon: Icons.newspaper,
+                              isSelected: _selectedCategory == 'Non-Fiction',
+                              onTap: () => _onCategoryTap('Non-Fiction', _generatedPrompt!),
+                              isDarkMode: _isDarkMode,
+                            ),
+                          ),
+                          const SizedBox(width: 5.0),
+                          Expanded(
+                            child: CategoryCard(
+                              title: 'Screenwriting',
+                              icon: Icons.theaters,
+                              isSelected: _selectedCategory == 'Screenwriting',
+                              onTap: () => _onCategoryTap('Screenwriting', _generatedPrompt!),
+                              isDarkMode: _isDarkMode,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10.0),
                  CustomPromptForm(
                     onGenerate: _onCustomPromptGenerated,
                     isDarkMode: _isDarkMode,
