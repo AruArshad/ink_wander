@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ink_wander/res/custom_colors.dart';
 
 class CustomPromptForm extends StatefulWidget {
   final Function(String prompt, String genre, int wordCount) onGenerate;
@@ -25,7 +26,6 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
   final _genres = ['Fiction', 'Poetry', 'Non-Fiction', 'Speechwriting', 'Playwriting', 'Screenwriting']; // Adjust genres as needed
 
   Color _textColor(BuildContext context) => widget.isDarkMode ? Colors.white : Colors.black;
-  Color _backgroundColor(BuildContext context) => widget.isDarkMode ? Colors.black26 : Colors.grey.shade200;
 
   @override
   void dispose() {
@@ -39,7 +39,7 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
-        color: _backgroundColor(context),
+        color: widget.isDarkMode ? Colors.grey[800] : Colors.grey.shade200,
       ),
       child: Column(
         children: [
@@ -62,7 +62,8 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
                 fontSize: 17.0, // Adjust font size as needed
                 fontWeight: FontWeight.bold
               ),
-              // ... other decoration properties
+              fillColor: widget.isDarkMode ? CustomColors.firebaseNavy : Colors.white, 
+              filled: true,
             ),
             maxLines: 3,
             style: GoogleFonts.lora( // Set text font
@@ -91,7 +92,7 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
                   )),
                 )).toList(),
                 onChanged: (genre) => setState(() => _selectedGenre = genre!),
-                dropdownColor: widget.isDarkMode ? Colors.grey[800] : Colors.white, // Set dropdown background color
+                dropdownColor:widget.isDarkMode ? CustomColors.firebaseNavy : Colors.white,
                 underline: const SizedBox(), // Remove default underline
                 icon: Icon(
                   Icons.keyboard_arrow_down_rounded, // Replace with your icon
@@ -123,11 +124,42 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
                   thumbColor: widget.isDarkMode ? Colors.white : Colors.blue, // Set thumb color
                 ),
               ),
+              IconButton(
+                      icon: const Icon(Icons.edit), // Edit icon
+                      color: widget.isDarkMode ? Colors.white : Colors.blue,
+                      onPressed: () {
+                        // Show dialog for manual entry
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Enter Word Count'),
+                              content: TextField(
+                                controller: TextEditingController(text: '$_wordCount'), // Pre-fill with current value
+                                keyboardType: TextInputType.number, // Set keyboard type for numbers
+                                onChanged: (value) {
+                                  int? parsedValue = int.tryParse(value);
+                                  if (parsedValue != null && parsedValue >= 100 && parsedValue <= 1000) {
+                                    setState(() => _wordCount = parsedValue);
+                                  }
+                                },
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
               Text(
                 '$_wordCount words',
-                style: GoogleFonts.montserrat( // Set font using GoogleFonts
+                style: GoogleFonts.montserrat(
                   color: _textColor(context),
-                  fontSize: 14.0, // Adjust font size as needed
+                  fontSize: 14.0,
                 ),
               ),
             ],
@@ -136,7 +168,7 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
           ElevatedButton(
             onPressed: () async {
               setState(() {
-                _isLoading = true; 
+                _isLoading = true;
               });
 
               try {
@@ -144,7 +176,7 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
 
                 setState(() {
                   _isLoading = false;
-                  // Update your data-related state variables with generatedData
+                  _promptController.clear();
                 });
               } catch (error) {
                 if (kDebugMode) {
