@@ -5,13 +5,8 @@ import 'package:ink_wander/api_key.dart';
 class HomePromptGenerator {
   static Future<String?> generatePrompt(BuildContext context) async {
 
-    final safetySettings = [
-      SafetySetting(HarmCategory.harassment, HarmBlockThreshold.high),
-      SafetySetting(HarmCategory.hateSpeech, HarmBlockThreshold.high),
-    ];
-
     // The Gemini 1.5 models are versatile and work with most use cases
-    final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: API_KEY, safetySettings: safetySettings);
+    final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: API_KEY);
     final content = [Content.text('I\'m making an app to show random trending topic for users for them to be creative. \n'
                                   'The options I\'m giving them are: Fiction, Poetry, Non-fiction, Speechwriting, Playwriting and Screenwriting. \n'
                                   'Write me one common short prompt where users will use to write more creatively for any of the genres mentioned. \n'
