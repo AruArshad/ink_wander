@@ -8,7 +8,7 @@
 
 ## Obtain an API Key:
 
-1. Visit Google AI Studio: [https://aistudio.google.com/app/waitlist/97445851](https://aistudio.google.com/app/waitlist/97445851)
+1. Visit Google AI Studio: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
 2. Create a new project or select an existing one.
 3. Enable the Generative AI API.
 4. Generate an API key and copy it for later use.
