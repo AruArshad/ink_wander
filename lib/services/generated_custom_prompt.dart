@@ -7,8 +7,14 @@ class CustomPromptGenerator {
   CustomPromptGenerator({required this.apiKey});
 
   Future<String?> generateCustomPrompt(String prompt, String genre, int wordCount) async {
+
+    final safetySettings = [
+      SafetySetting(HarmCategory.harassment, HarmBlockThreshold.high),
+      SafetySetting(HarmCategory.hateSpeech, HarmBlockThreshold.high),
+    ];
+
     // The Gemini 1.5 models are versatile and work with most use cases
-    final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
+    final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey, safetySettings: safetySettings);
     final content = [
       Content.text('''Write a creative text based on the user input: 
 

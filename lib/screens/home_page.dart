@@ -41,7 +41,8 @@ class HomePageState extends State<HomePage> {
       _generatedPrompt = null; // Reset to null, but with a delay
     });
     await Future.delayed(const Duration(milliseconds: 200)); // Introduce a delay
-    final String? prompt = await HomePromptGenerator.generatePrompt();
+    // ignore: use_build_context_synchronously
+    final String? prompt = await HomePromptGenerator.generatePrompt(context);
     if (prompt != null) {
       setState(() {
         _generatedPrompt = prompt;
