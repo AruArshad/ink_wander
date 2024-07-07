@@ -155,9 +155,9 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  void _onCustomPromptGenerated(String prompt, String genre, int wordCount) async {
+  void _onCustomPromptGenerated(String prompt, String genre, int wordCount, String? imageUrl) async {
     final promptGenerator = CustomPromptGenerator(apiKey: API_KEY);
-    final generatedPrompt = await promptGenerator.generateCustomPrompt(prompt, genre, wordCount);
+    final generatedPrompt = await promptGenerator.generateCustomPrompt(prompt, genre, wordCount, imageUrl);
     if (generatedPrompt != null) {
       Navigator.push(
         // ignore: use_build_context_synchronously

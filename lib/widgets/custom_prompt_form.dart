@@ -1,10 +1,12 @@
-import 'package:flutter/foundation.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ink_wander/res/custom_colors.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CustomPromptForm extends StatefulWidget {
-  final Function(String prompt, String genre, int wordCount) onGenerate;
+  final Function(String prompt, String genre, int wordCount, String? imageUrl) onGenerate;
   final bool isDarkMode;
 
   const CustomPromptForm({
@@ -22,8 +24,9 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
   final _promptController = TextEditingController();
   String _selectedGenre = 'Fiction';
   int _wordCount = 100;
+  String? _imageUrl;
 
-  final _genres = ['Fiction', 'Poetry', 'Non-Fiction', 'Speechwriting', 'Playwriting', 'Screenwriting']; // Adjust genres as needed
+  final _genres = ['Fiction', 'Poetry', 'Non-Fiction', 'Speechwriting', 'Playwriting', 'Screenwriting', 'Romance', 'Mystery']; // Adjust genres as needed
 
   Color _textColor(BuildContext context) => widget.isDarkMode ? Colors.white : Colors.black;
 
@@ -69,6 +72,40 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
             style: GoogleFonts.lora( // Set text font
               color: _textColor(context),
               fontSize: 16.0, // Adjust font size as needed
+            ),
+          ),
+          const SizedBox(height: 10.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Add Image: ',
+                style: GoogleFonts.montserrat(
+                  color: _textColor(context),
+                  fontSize: 17.0,
+                ),
+              ),
+              ElevatedButton.icon(
+                onPressed: () => _pickImage(),
+                icon: const Icon(Icons.add_a_photo),
+                label: const Text('Select Image'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: widget.isDarkMode ? Colors.blueGrey : Colors.blue,
+                  foregroundColor: Colors.white,
+                ),
+              ),
+            ],
+          ),
+          if (_imageUrl != null) 
+          Container(
+            margin: const EdgeInsets.only(top: 10.0),
+            child: SizedBox(
+              width: 200.0,
+              height: 150.0,
+              child: Image.file(
+                File(_imageUrl!), // Replace with your actual image path
+                fit: BoxFit.cover, // Adjust as needed
+              ),
             ),
           ),
           const SizedBox(height: 10.0),
@@ -170,22 +207,14 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
               setState(() {
                 _isLoading = true;
               });
-
-              try {
-                await widget.onGenerate(_promptController.text, _selectedGenre, _wordCount);
-
-                setState(() {
-                  _isLoading = false;
-                  _promptController.clear();
-                });
-              } catch (error) {
-                if (kDebugMode) {
-                  print(error);
-                } // For debugging purposes
-                setState(() {
-                  _isLoading = false; // Hide the progress indicator in case of errors
-                });
-              }
+              
+              await widget.onGenerate(_promptController.text, _selectedGenre, _wordCount, _imageUrl?.toString());
+                
+              setState(() {
+                _isLoading = false;
+                _promptController.clear();
+                _imageUrl = null;
+              });
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: widget.isDarkMode ? Colors.blueGrey : Colors.blue,
@@ -199,4 +228,15 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
       ),
     );
   }
+
+  Future<void> _pickImage() async {
+    final imagePicker = ImagePicker();
+    final XFile? pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() => _imageUrl = pickedImage.path);
+    } else {
+      setState(() => _imageUrl = null); // Set to null if no image selected
+    }
+  }
+
 }
