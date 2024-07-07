@@ -424,7 +424,30 @@ class HomePageState extends State<HomePage> {
                               icon: Icons.theaters,
                               isSelected: _selectedCategory == 'Screenwriting',
                               onTap: () => _showConfirmationDialog('Screenwriting', _generatedPrompt!),
-                              // onTap: () => _onCategoryTap('Screenwriting', _generatedPrompt!),
+                              isDarkMode: _isDarkMode,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5.0),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CategoryCard(
+                              title: 'Romance',
+                              icon: Icons.favorite_border_outlined,
+                              isSelected: _selectedCategory == 'Romance',
+                              onTap: () => _showConfirmationDialog('Romance', _generatedPrompt!),
+                              isDarkMode: _isDarkMode,
+                            ),
+                          ),
+                          const SizedBox(width: 5.0),
+                          Expanded(
+                            child: CategoryCard(
+                              title: 'Mystery',
+                              icon: Icons.question_mark,
+                              isSelected: _selectedCategory == 'Mystery',
+                              onTap: () => _showConfirmationDialog('Mystery', _generatedPrompt!),
                               isDarkMode: _isDarkMode,
                             ),
                           ),

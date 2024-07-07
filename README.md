@@ -17,8 +17,9 @@
 
 1. Clone this repository or download the code.
 2. Open a terminal window and navigate to the project directory.
-3. Replace $API_KEY in the following file in the /lib folder:
-4. Run as an android app
+3. Create a file named api-key.dart in the /lib folder.
+3. Replace $API_KEY with your generated API key.
+4. Run as an android app.
 
 ```
 ink_wander/api-key.dart
@@ -35,7 +36,7 @@ Ink Wander empowers you to generate unique and inspiring writing prompts tailore
 * **Craft Custom Prompts:** Define the foundation for your story by specifying a genre, word count, and an optional starting prompt.
 * **Variety of Genres:** Explore a range of writing styles, from science fiction and fantasy to romance and mystery.
 * **Effortless Generation:** Generate unique prompts with a single click, letting the app spark your creativity.
-* **Seamless Integration:** Easily navigate from generated prompts to composing your masterpiece within the app (optional, if applicable).
-* **Dark Mode Support:** Enjoy a comfortable writing experience in both light and dark themes (optional, if applicable).
+* **Seamless Integration:** Easily navigate from generated prompts to composing your masterpiece within the app.
+* **Dark Mode Support:** Enjoy a comfortable reading experience in both light and dark themes.
 
 ## Ink Wander is your one-stop shop for overcoming writer's block and igniting your creative writing journey.
