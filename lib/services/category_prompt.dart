@@ -7,7 +7,7 @@ class CategoryPrompt {
 
     // The Gemini 1.5 models are versatile and work with most use cases
     final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: API_KEY);
-    final content = [Content.text('Use $prompt as context and $category as genre and write me a few creative texts.')];
+    final content = [Content.text('Use $prompt as context and $category as genre and write me a creative text. Always display the information below in the output: Genre: $category Word count: wordcount')];
 
     try {
       final response = await model.generateContent(content);

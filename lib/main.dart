@@ -15,7 +15,7 @@ void main() async{
   final isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true; // Check for key or set default
   final isLoggedIn = await _isLoggedIn();
   
-  runApp(MainApp(isFirstLaunch: isFirstLaunch, isLoggedIn: isLoggedIn)); // Pass isFirstLaunch to MyApp
+  runApp(MainApp(isFirstLaunch: isFirstLaunch, isLoggedIn: isLoggedIn));
 }
 
 class MainApp extends StatefulWidget {

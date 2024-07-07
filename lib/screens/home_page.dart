@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   bool _isDarkMode = true;
-  String _selectedCategory = 'All';
+  String _selectedCategory = '';
   String? _generatedPrompt = '';
   // ignore: unused_field
   bool _isRefreshing = false;
@@ -104,6 +104,55 @@ class HomePageState extends State<HomePage> {
         ),
       );
     }
+  }
+
+  void _showConfirmationDialog(String category, String prompt) {
+
+    final Color backgroundColor = _isDarkMode ? Colors.black : Colors.white;
+    final Color textColor = _isDarkMode ? Colors.white : Colors.black;
+
+    setState(() {
+      _selectedCategory = category;
+    });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmation'),
+          titleTextStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: textColor),
+          backgroundColor: backgroundColor,
+          content: Text(
+            'Are you sure you want to write based on the selected category: $_selectedCategory?', 
+            style: TextStyle(fontSize: 16.0, color: textColor),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () { 
+                setState(() {
+                  _selectedCategory = '';
+                });
+                Navigator.pop(context, false); // Cancel
+              },
+              child: Text('Cancel', style: TextStyle(fontSize: 17.0, color: textColor),),
+            ),
+            TextButton(
+              onPressed: () { 
+                Navigator.pop(context, true); // Confirm
+              },
+              child: Text('Write', style: TextStyle(fontSize: 17.0, color: textColor),),
+            ),
+          ],
+        );
+      },
+    ).then((confirmed) {
+      if (confirmed == true) {
+        // Call your _onCategoryTap function to handle prompt generation and navigation
+        _onCategoryTap(category, prompt); // Assuming you have a default empty prompt
+        setState(() {
+          _selectedCategory = '';
+        });
+      }
+    });
   }
 
   void _onCustomPromptGenerated(String prompt, String genre, int wordCount) async {
@@ -316,7 +365,7 @@ class HomePageState extends State<HomePage> {
                               title: 'Fiction',
                               icon: Icons.book,
                               isSelected: _selectedCategory == 'Fiction',
-                              onTap: () => _onCategoryTap('Fiction', _generatedPrompt!),
+                              onTap: () => _showConfirmationDialog('Fiction', _generatedPrompt!),
                               isDarkMode: _isDarkMode,
                             ),
                           ),
@@ -326,7 +375,7 @@ class HomePageState extends State<HomePage> {
                               title: 'Poetry',
                               icon: Icons.edit,
                               isSelected: _selectedCategory == 'Poetry',
-                              onTap: () => _onCategoryTap('Poetry', _generatedPrompt!),
+                              onTap: () => _showConfirmationDialog('Poetry', _generatedPrompt!),
                               isDarkMode: _isDarkMode,
                             ),
                           ),
@@ -340,7 +389,7 @@ class HomePageState extends State<HomePage> {
                               title: 'Speechwriting',
                               icon: Icons.speaker,
                               isSelected: _selectedCategory == 'Speechwriting',
-                              onTap: () => _onCategoryTap('Speechwriting', _generatedPrompt!),
+                              onTap: () => _showConfirmationDialog('Speechwriting', _generatedPrompt!),
                               isDarkMode: _isDarkMode,
                             ),
                           ),
@@ -350,7 +399,7 @@ class HomePageState extends State<HomePage> {
                               title: 'Playwriting',
                               icon: Icons.play_arrow,
                               isSelected: _selectedCategory == 'Playwriting',
-                              onTap: () => _onCategoryTap('Playwriting', _generatedPrompt!),
+                              onTap: () => _showConfirmationDialog('Playwriting', _generatedPrompt!),
                               isDarkMode: _isDarkMode,
                             ),
                           ),
@@ -364,7 +413,7 @@ class HomePageState extends State<HomePage> {
                               title: 'Non-Fiction',
                               icon: Icons.newspaper,
                               isSelected: _selectedCategory == 'Non-Fiction',
-                              onTap: () => _onCategoryTap('Non-Fiction', _generatedPrompt!),
+                              onTap: () => _showConfirmationDialog('Non-Fiction', _generatedPrompt!),
                               isDarkMode: _isDarkMode,
                             ),
                           ),
@@ -374,7 +423,8 @@ class HomePageState extends State<HomePage> {
                               title: 'Screenwriting',
                               icon: Icons.theaters,
                               isSelected: _selectedCategory == 'Screenwriting',
-                              onTap: () => _onCategoryTap('Screenwriting', _generatedPrompt!),
+                              onTap: () => _showConfirmationDialog('Screenwriting', _generatedPrompt!),
+                              // onTap: () => _onCategoryTap('Screenwriting', _generatedPrompt!),
                               isDarkMode: _isDarkMode,
                             ),
                           ),

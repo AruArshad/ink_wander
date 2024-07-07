@@ -10,7 +10,7 @@ class HomePromptGenerator {
     final content = [Content.text('I\'m making an app to show random trending topic for users for them to be creative. \n'
                                   'The options I\'m giving them are: Fiction, Poetry, Non-fiction, Speechwriting, Playwriting and Screenwriting. \n'
                                   'Write me one common short prompt where users will use to write more creatively for any of the genres mentioned. \n'
-                                  'Don\'t show ##Prompt:. Only 1 sentence')];
+                                  'Don\'t show ##Prompt:. Only 1 sentence.')];
 
     try {
       final response = await model.generateContent(content);
