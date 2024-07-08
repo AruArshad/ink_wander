@@ -13,6 +13,8 @@ class CustomPromptGenerator {
     final safetySettings = [
       SafetySetting(HarmCategory.harassment, HarmBlockThreshold.high),
       SafetySetting(HarmCategory.hateSpeech, HarmBlockThreshold.high),
+      SafetySetting(HarmCategory.sexuallyExplicit, HarmBlockThreshold.high),
+      SafetySetting(HarmCategory.dangerousContent, HarmBlockThreshold.high),
     ];
 
     // The Gemini 1.5 models are versatile and work with most use cases

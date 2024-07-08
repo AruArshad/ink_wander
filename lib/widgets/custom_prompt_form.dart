@@ -5,14 +5,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:image_picker/image_picker.dart';
 
+// ignore: must_be_immutable
 class CustomPromptForm extends StatefulWidget {
   final Function(String prompt, String genre, int wordCount, String? imageUrl) onGenerate;
   final bool isDarkMode;
 
-  const CustomPromptForm({
+  final TextEditingController promptController; // Pass controller from HomePage
+  String selectedGenre; // Pass selected genre from HomePage
+  String? imageUrl; // Pass image URL (optional) from HomePage
+
+  CustomPromptForm({
     super.key,
     required this.onGenerate,
     required this.isDarkMode,
+    required this.promptController,
+    required this.selectedGenre,
+    this.imageUrl,
   });
 
   @override
@@ -20,11 +28,8 @@ class CustomPromptForm extends StatefulWidget {
 }
 
 class _CustomPromptFormState extends State<CustomPromptForm> {
-  bool _isLoading = false;
-  final _promptController = TextEditingController();
-  String _selectedGenre = 'Fiction';
+  bool _isLoading = false; 
   int _wordCount = 100;
-  String? _imageUrl;
 
   final _genres = ['Fiction', 'Poetry', 'Non-Fiction', 'Speechwriting', 'Playwriting', 'Screenwriting', 'Romance', 'Mystery']; // Adjust genres as needed
 
@@ -32,7 +37,7 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
 
   @override
   void dispose() {
-    _promptController.dispose();
+    widget.promptController.dispose();
     super.dispose();
   }
 
@@ -56,7 +61,7 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
           ),
           const SizedBox(height: 20.0),
           TextField(
-            controller: _promptController,
+            controller: widget.promptController,
             decoration: InputDecoration(
               labelText: 'Enter your custom prompt:',
               border: const OutlineInputBorder(),
@@ -96,18 +101,32 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
               ),
             ],
           ),
-          if (_imageUrl != null) 
+          if (widget.imageUrl != null) 
           Container(
-            margin: const EdgeInsets.only(top: 10.0),
-            child: SizedBox(
-              width: 200.0,
-              height: 150.0,
-              child: Image.file(
-                File(_imageUrl!), // Replace with your actual image path
-                fit: BoxFit.cover, // Adjust as needed
+          margin: const EdgeInsets.only(top: 10.0),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 100.0,
+                height: 100.0,
+                child: Image.file(
+                  File(widget.imageUrl!),
+                  fit: BoxFit.cover, // Adjust as needed
+                ),
               ),
-            ),
+              const SizedBox(width: 10.0),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    widget.imageUrl = null;
+                  });
+                },
+                icon: const Icon(Icons.delete),
+                color: widget.isDarkMode ? Colors.white : Colors.blue,
+              ),
+            ],
           ),
+        ),
           const SizedBox(height: 10.0),
           Row(
             children: [
@@ -120,7 +139,7 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
               ),
               const SizedBox(width: 10.0),
               DropdownButton<String>(
-                value: _selectedGenre,
+                value: widget.selectedGenre,
                 items: _genres.map((genre) => DropdownMenuItem(
                   value: genre,
                   child: Text(genre, style: GoogleFonts.montserrat( // Set font using GoogleFonts
@@ -128,7 +147,7 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
                     fontSize: 17.0, // Adjust font size as needed
                   )),
                 )).toList(),
-                onChanged: (genre) => setState(() => _selectedGenre = genre!),
+                onChanged: (genre) => setState(() => widget.selectedGenre = genre!),
                 dropdownColor:widget.isDarkMode ? CustomColors.firebaseNavy : Colors.white,
                 underline: const SizedBox(), // Remove default underline
                 icon: Icon(
@@ -208,12 +227,12 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
                 _isLoading = true;
               });
               
-              await widget.onGenerate(_promptController.text, _selectedGenre, _wordCount, _imageUrl?.toString());
+              await widget.onGenerate(widget.promptController.text, widget.selectedGenre, _wordCount, widget.imageUrl?.toString());
                 
               setState(() {
                 _isLoading = false;
-                _promptController.clear();
-                _imageUrl = null;
+                widget.promptController.clear();
+                widget.imageUrl = null;
               });
             },
             style: ElevatedButton.styleFrom(
@@ -233,9 +252,9 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
     final imagePicker = ImagePicker();
     final XFile? pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
-      setState(() => _imageUrl = pickedImage.path);
+      setState(() => widget.imageUrl = pickedImage.path);
     } else {
-      setState(() => _imageUrl = null); // Set to null if no image selected
+      setState(() => widget.imageUrl = null); // Set to null if no image selected
     }
   }
 

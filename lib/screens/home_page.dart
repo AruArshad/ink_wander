@@ -29,6 +29,10 @@ class HomePageState extends State<HomePage> {
   bool _isRefreshing = false;
   bool _isLoading = false;
 
+  final TextEditingController _promptController = TextEditingController();
+  String _selectedGenre = 'Fiction';
+  String? _imageUrl;
+
   void _showUserInfoPopup() {
     showDialog(
       context: context,
@@ -59,6 +63,9 @@ class HomePageState extends State<HomePage> {
     setState(() {
       _isRefreshing = true; // Set flag to show progress indicator
       _generatedPrompt = ''; // Reset prompt for refresh
+      _promptController.text = ''; // Clear prompt text (optional)
+      _selectedGenre = 'Fiction'; // Reset genre (optional)
+      _imageUrl = null; // Reset image URL (optional)
     });
     _showGeneratedPrompt(); // Re-fetch prompt
     setState(() {
@@ -453,6 +460,9 @@ class HomePageState extends State<HomePage> {
                  CustomPromptForm(
                     onGenerate: _onCustomPromptGenerated,
                     isDarkMode: _isDarkMode,
+                    promptController: _promptController,
+                    selectedGenre: _selectedGenre,
+                    imageUrl: _imageUrl,
                   ),
                 ],
               ),
