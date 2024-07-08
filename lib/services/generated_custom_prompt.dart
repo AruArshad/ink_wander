@@ -26,7 +26,7 @@ class CustomPromptGenerator {
     var imageParts = [];
 
     final finalprompt = TextPart('''
-            Write a creative text based on the user input:
+            Write a creative text based on the user input. If user didn't enter anything, give an example:
 
             * Prompt: $prompt (optional image: $imageUrl)
             * Genre: $genre

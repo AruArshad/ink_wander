@@ -29,14 +29,15 @@ const API_KEY = 'AIza*************************';
 
 ## Functionality:
 
-Ink Wander empowers you to generate unique and inspiring writing prompts tailored to your preferences. Whether you're a seasoned writer experiencing writer's block or a budding storyteller looking for a spark of inspiration, this app provides the tools to ignite your imagination.
+Ink Wander empowers you to generate unique and inspiring writings tailored to your preferences. Whether you're a seasoned writer experiencing writer's block or a budding storyteller looking for a spark of inspiration, this app provides the tools to ignite your imagination.
 
 ### Key Features:
 
 * **Craft Custom Prompts:** Define the foundation for your story by specifying a genre, word count, and an optional starting prompt.
+* **Add Image to Prompt:** Include an image to enhance your writing experience.
 * **Variety of Genres:** Explore a range of writing styles, from science fiction and fantasy to romance and mystery.
-* **Effortless Generation:** Generate unique prompts with a single click, letting the app spark your creativity.
-* **Seamless Integration:** Easily navigate from generated prompts to composing your masterpiece within the app.
+* **Effortless Generation:** Generate unique texts with a single click, letting the app spark your creativity.
+* **Seamless Integration:** Easily navigate from generated texts to composing your masterpiece within the app.
 * **Dark Mode Support:** Enjoy a comfortable reading experience in both light and dark themes.
 
 ## Ink Wander is your one-stop shop for overcoming writer's block and igniting your creative writing journey.
