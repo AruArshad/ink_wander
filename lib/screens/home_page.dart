@@ -67,10 +67,7 @@ class HomePageState extends State<HomePage> {
   }
 
   void _onCategoryTap(String category, String prompt) async {
-    setState(() {
-      _selectedCategory = category;
-    });
-
+  
     // Show a circular progress indicator while generating the prompt
     showDialog(
       context: context,
@@ -122,7 +119,7 @@ class HomePageState extends State<HomePage> {
           titleTextStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: textColor),
           backgroundColor: backgroundColor,
           content: Text(
-            'Are you sure you want to write based on the selected category: $_selectedCategory?', 
+            'Are you sure you want to write based on the selected category: $category?', 
             style: TextStyle(fontSize: 16.0, color: textColor),
           ),
           actions: [
@@ -146,11 +143,7 @@ class HomePageState extends State<HomePage> {
       },
     ).then((confirmed) {
       if (confirmed == true) {
-        // Call your _onCategoryTap function to handle prompt generation and navigation
-        _onCategoryTap(category, prompt); // Assuming you have a default empty prompt
-        setState(() {
-          _selectedCategory = '';
-        });
+        _onCategoryTap(category, prompt); 
       }
     });
   }
