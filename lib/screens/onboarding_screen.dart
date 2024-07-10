@@ -47,7 +47,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       image: "assets/images/onboarding3.jpeg",
       title: "Craft Your Story",
       description:
-          "Explore a plethora of story ideas and genres. From romance to mystery, historical to sci-fi, Ink Wander offers a rich tapestry of themes to weave your narrative masterpiece.",
+          "Explore a plethora of story ideas and genres. From romance to mystery, fiction to non-fiction, Ink Wander offers a rich tapestry of themes to weave your narrative masterpiece.",
     ),
     OnBoard(
       image: "assets/images/onboarding4.jpeg",
@@ -88,128 +88,142 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     Navigator.pushReplacementNamed(context, '/login');
   }
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: _isDarkMode ? Colors.black : Colors.white,
-    appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(kToolbarHeight), // Adjust height if needed
-          child: MyAppBar(
-            isDarkMode: _isDarkMode,
-            onToggleDarkMode: () {
-              setState(() {
-                _isDarkMode = !_isDarkMode;
-              });
-            },
-          ),
-    ),
-    body: Stack(
-      children: [
-        PageView.builder(
-          controller: _pageController,
-          onPageChanged: (int page) {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: _isDarkMode ? Colors.black : Colors.white,
+      appBar: PreferredSize(
+        preferredSize:
+            const Size.fromHeight(kToolbarHeight), // Adjust height if needed
+        child: MyAppBar(
+          isDarkMode: _isDarkMode,
+          onToggleDarkMode: () {
             setState(() {
-              _pageIndex = page;
+              _isDarkMode = !_isDarkMode;
             });
           },
-          itemCount: demoData.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                          borderRadius: BorderRadius.circular(15.0), // Adjust the radius for desired curvature
-                          child: Image.asset(
-                            demoData[index].image,
-                            height: 300,
-                            width: double.infinity,
-                            fit: BoxFit.cover, // Ensures the image covers the space, you can adjust this as needed
-                          ),
-                        ),
-                  const SizedBox(height: 20),
-                  Text(
-                    demoData[index].title,
-                    style: GoogleFonts.lobster(
-                      textStyle: TextStyle(
-                        color: _isDarkMode ? Colors.white : Colors.black,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    demoData[index].description,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.slabo27px(
-                    textStyle: TextStyle(
-                        color: _isDarkMode ? Colors.white : Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
         ),
-        Positioned(
-          bottom: 07, // Increase the bottom padding to give more space
-          left: 20,
-          right: 20,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (_pageIndex != 0)
+      ),
+      body: Stack(
+        children: [
+          PageView.builder(
+            controller: _pageController,
+            onPageChanged: (int page) {
+              setState(() {
+                _pageIndex = page;
+              });
+            },
+            itemCount: demoData.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                          15.0), // Adjust the radius for desired curvature
+                      child: Image.asset(
+                        demoData[index].image,
+                        height: 300,
+                        width: double.infinity,
+                        fit: BoxFit
+                            .cover, // Ensures the image covers the space, you can adjust this as needed
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      demoData[index].title,
+                      style: GoogleFonts.lobster(
+                        textStyle: TextStyle(
+                          color: _isDarkMode ? Colors.white : Colors.black,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      demoData[index].description,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.slabo27px(
+                        textStyle: TextStyle(
+                          color: _isDarkMode ? Colors.white : Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          Positioned(
+            bottom: 07, // Increase the bottom padding to give more space
+            left: 20,
+            right: 20,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (_pageIndex != 0)
+                  ElevatedButton(
+                    onPressed: () {
+                      _pageController.previousPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue, // Background color
+                      textStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.bold), // Text color
+                    ),
+                    child: const Text('Prev'),
+                  ),
                 ElevatedButton(
                   onPressed: () {
-                    _pageController.previousPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
+                    if (_pageIndex == demoData.length - 1) {
+                      SharedPreferences.getInstance().then(
+                          (prefs) => prefs.setBool('isFirstLaunch', false));
+                      _goToSignIn();
+                    } else {
+                      _pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue, // Background color
-                    textStyle: const TextStyle(color: Colors.white), // Text color
+                    backgroundColor:
+                        Colors.green, // Background color for 'Next'/'Finish'
+                    textStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.bold), // Text color
                   ),
-                  child: const Text('Prev'),
+                  child: Text(
+                      _pageIndex == demoData.length - 1 ? 'Finish' : 'Next'),
                 ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_pageIndex == demoData.length - 1) {
-                    SharedPreferences.getInstance().then((prefs) => prefs.setBool('isFirstLaunch', false));
-                    _goToSignIn();
-                  } else {
-                    _pageController.nextPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green, // Background color for 'Next'/'Finish'
-                  textStyle: const TextStyle(color: Colors.white), // Text color
-                ),
-                child: Text(_pageIndex == demoData.length - 1 ? 'Finish' : 'Next'),
-              ),
-              if (_pageIndex != demoData.length - 1)
-                TextButton(
-                  onPressed: _goToSignIn,
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    textStyle: const TextStyle(color: Colors.red), // Text color for 'Skip'
+                if (_pageIndex != demoData.length - 1)
+                  TextButton(
+                    onPressed: _goToSignIn,
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      textStyle: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.bold), // Text color for 'Skip'
+                    ),
+                    child: const Text('Skip'),
                   ),
-                  child: const Text('Skip'),
-                ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }
-}
-

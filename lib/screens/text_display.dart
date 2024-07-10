@@ -5,14 +5,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ink_wander/services/favorites_firestore.dart';
 
 class TextDisplay extends StatefulWidget {
-
-  const TextDisplay({super.key, required this.prompt, required this.category, this.isFavorite = false, required this.isDarkMode});
+  const TextDisplay(
+      {super.key,
+      required this.prompt,
+      required this.category,
+      this.isFavorite = false,
+      required this.isDarkMode});
 
   final String prompt;
   final String category;
   final bool isFavorite;
   final bool isDarkMode;
-  
+
   @override
   State<TextDisplay> createState() => _TextDisplayState();
 }
@@ -37,8 +41,9 @@ class _TextDisplayState extends State<TextDisplay> {
         final shouldRemove = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Remove Prompt'),
-            content: const Text('Are you sure you want to remove this prompt from your favorites?'),
+            title: const Text('Remove Favorite?'),
+            content: const Text(
+                'Are you sure you want to remove these texts from your favorites?'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false), // Cancel
@@ -53,29 +58,28 @@ class _TextDisplayState extends State<TextDisplay> {
         );
 
         if (shouldRemove ?? false) {
-
           final favoritesFirestore = FavoritesFirestore();
           // ignore: use_build_context_synchronously
           await favoritesFirestore.deleteFavoritePrompt(context, userId);
-         
+
           // ignore: use_build_context_synchronously
           // await FavoritesFirestore.removeFromFavorites(context, userId, _generatedId);
-         
-        //  await FavoritesFirestore.removeFromFavorites(context, userId, _generatedId);
+
+          //  await FavoritesFirestore.removeFromFavorites(context, userId, _generatedId);
           setState(() {
             _isFavorited = false;
           });
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Prompt removed from favorites!'),
+              content: Text('Texts removed from favorites!'),
             ),
           );
         }
       } else {
-
         if (!_isFavorited) {
-          await FavoritesFirestore.addToFavorites(userId, widget.prompt, widget.category);
+          await FavoritesFirestore.addToFavorites(
+              userId, widget.prompt, widget.category);
         }
 
         setState(() {
@@ -84,7 +88,7 @@ class _TextDisplayState extends State<TextDisplay> {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Prompt saved to favorites!'),
+            content: Text('Texts saved to favorites!'),
           ),
         );
       }
@@ -92,7 +96,7 @@ class _TextDisplayState extends State<TextDisplay> {
       // Handle case where user is not signed in
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please sign in to save prompts!'),
+          content: Text('Please sign in to save texts!'),
         ),
       );
     }
@@ -106,18 +110,22 @@ class _TextDisplayState extends State<TextDisplay> {
 
   @override
   Widget build(BuildContext context) {
-    final Color backgroundColor = _isDarkMode ? Colors.black87 : Colors.white; // Dynamic background color
+    final Color backgroundColor =
+        _isDarkMode ? Colors.black87 : Colors.white; // Dynamic background color
     final Color textColor = _isDarkMode ? Colors.white : Colors.black;
 
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: backgroundColor,
-        title: Text("Ink Wander", style: GoogleFonts.margarine(
+        title: Text(
+          "Ink Wander",
+          style: GoogleFonts.margarine(
             textStyle: TextStyle(color: textColor), // Use dynamic text color
           ),
         ),
-        leading: IconButton(  // Change back button color
+        leading: IconButton(
+          // Change back button color
           icon: Icon(Icons.arrow_back, color: textColor),
           onPressed: () {
             Navigator.pop(context);
@@ -125,7 +133,8 @@ class _TextDisplayState extends State<TextDisplay> {
         ),
         actions: [
           IconButton(
-            icon: Icon(_isFavorited ? Icons.star : Icons.star_border, color: textColor),
+            icon: Icon(_isFavorited ? Icons.star : Icons.star_border,
+                color: textColor),
             onPressed: _onFavoriteButtonPressed,
           ),
           IconButton(
@@ -136,25 +145,30 @@ class _TextDisplayState extends State<TextDisplay> {
               // ignore: use_build_context_synchronously
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Prompt copied to clipboard!'),
+                  content: Text('Texts copied to clipboard!'),
                 ),
               );
             },
           ),
           IconButton(
-            icon: Icon(_isDarkMode ? Icons.light_mode : Icons.dark_mode, color: textColor,),
+            icon: Icon(
+              _isDarkMode ? Icons.light_mode : Icons.dark_mode,
+              color: textColor,
+            ),
             onPressed: _toggleDarkMode,
           ),
         ],
       ),
-      body: SingleChildScrollView( // Make the body scrollable
-      padding: const EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
+        // Make the body scrollable
+        padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Text(
-            widget.prompt, 
+            widget.prompt,
             style: GoogleFonts.sora(
-              textStyle: TextStyle(color: textColor, 
-              fontSize: 16,
+              textStyle: TextStyle(
+                color: textColor,
+                fontSize: 16,
               ),
             ),
           ),

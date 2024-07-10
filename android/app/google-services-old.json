@@ -7,43 +7,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:69719377534:android:f2f103a222e146c791fa2f",
-        "android_client_info": {
-          "package_name": "com.app.ink_wander"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "69719377534-ftj9jjcdvef1jt108ueh04uhs5ebm1i5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.app.ink_wander",
-            "certificate_hash": "2fff5a25341b107e6a588df386dd19cdd85d8cc1"
-          }
-        },
-        {
-          "client_id": "69719377534-eet51t7p37e8jefha4qu5n4hv4qdoa8o.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyASqwuzTK61ky8pSNTIWr8qU2yfpWV1WBk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "69719377534-eet51t7p37e8jefha4qu5n4hv4qdoa8o.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:69719377534:android:8dde00af07ffad9391fa2f",
         "android_client_info": {
           "package_name": "com.example.ink_wander"

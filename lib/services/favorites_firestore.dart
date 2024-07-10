@@ -192,13 +192,6 @@ class FavoritesFirestore {
       // Delete the document
       await docSnapshot.reference.delete();
 
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Prompt removed from favorites!'),
-        ),
-      );
-
       // print('Favorite prompt (document ID: $documentId) deleted successfully.');
     } on FirebaseException catch (e) {
       

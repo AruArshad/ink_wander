@@ -8,18 +8,21 @@ class CustomPromptGenerator {
 
   CustomPromptGenerator({required this.apiKey});
 
-  Future<String?> generateCustomPrompt(String prompt, String genre, int wordCount, String? imageUrl) async {
-
+  Future<String?> generateCustomPrompt(
+      String prompt, String genre, int wordCount, String? imageUrl) async {
     final safetySettings = [
       SafetySetting(HarmCategory.harassment, HarmBlockThreshold.high),
       SafetySetting(HarmCategory.hateSpeech, HarmBlockThreshold.high),
-      SafetySetting(HarmCategory.sexuallyExplicit, HarmBlockThreshold.high),
+      SafetySetting(HarmCategory.sexuallyExplicit, HarmBlockThreshold.none),
       SafetySetting(HarmCategory.dangerousContent, HarmBlockThreshold.high),
     ];
 
     // The Gemini 1.5 models are versatile and work with most use cases
-    final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey, safetySettings: safetySettings);
-    
+    final model = GenerativeModel(
+        model: 'gemini-1.5-flash',
+        apiKey: apiKey,
+        safetySettings: safetySettings);
+
     final image = imageUrl != null ? await File(imageUrl).readAsBytes() : null;
     // final image = await File(imageUrl).readAsBytes();
 
@@ -42,7 +45,7 @@ class CustomPromptGenerator {
         DataPart('image/jpeg', image),
       ];
     } else {
-      imageParts = []; 
+      imageParts = [];
     }
 
     try {
