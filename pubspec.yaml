@@ -1,7 +1,7 @@
 name: ink_wander
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.0+3
+version: 1.0.1+5
 
 environment:
   sdk: '>=3.4.3 <4.0.0'
@@ -30,8 +30,8 @@ flutter:
     - assets/images/
 
 flutter_native_splash:
-  background_image: "assets/images/splash.jpeg"  # Path to your splash image
-  android: true                                 # Enable splash screen for Android
-  ios: true                                     # Enable splash screen for iOS
-  web: false                                    # Disable splash screen for web (optional)
+  background_image: "assets/images/splash.jpeg"  
+  android: true                                 
+  ios: true                                     
+  web: false                                    
 

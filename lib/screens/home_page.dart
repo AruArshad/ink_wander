@@ -212,7 +212,7 @@ class HomePageState extends State<HomePage> {
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) async {
-        if (didPop) return; // Avoid unnecessary processing if pop wasn't attempted
+        if (didPop) return;
         final shouldExit = await showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -386,6 +386,14 @@ class HomePageState extends State<HomePage> {
                                 ),
                               );
                             },
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 10.0,
+                          left: 8.0,
+                          child: IconButton(
+                            icon: Icon(Icons.refresh, color: textColor),
+                            onPressed: _refreshData,
                           ),
                         ),
                       ],
