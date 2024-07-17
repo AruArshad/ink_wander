@@ -1,7 +1,7 @@
 name: ink_wander
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.1+5
+version: 1.0.1+6
 
 environment:
   sdk: '>=3.4.3 <4.0.0'
@@ -28,6 +28,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - shorebird.yaml
 
 flutter_native_splash:
   background_image: "assets/images/splash.jpeg"  
