@@ -28,7 +28,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   late PageController _pageController;
   int _pageIndex = 0;
   Timer? _timer;
-  bool _isDarkMode = true;
+  bool _isDarkMode = false;
 
   final List<OnBoard> demoData = [
     OnBoard(

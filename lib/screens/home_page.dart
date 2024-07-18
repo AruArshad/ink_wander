@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  bool _isDarkMode = true;
+  bool _isDarkMode = false;
   String _selectedCategory = '';
   String? _generatedPrompt = '';
   // ignore: unused_field
