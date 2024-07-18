@@ -2,34 +2,40 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ink_wander/screens/home_page.dart';
+import 'package:ink_wander/services/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/onboarding_screen.dart';
 import 'package:ink_wander/screens/login.dart';
 
-void main() async{
-
-  WidgetsFlutterBinding.ensureInitialized(); // Wait for preferences to initialize
+void main() async {
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Wait for preferences to initialize
   await Firebase.initializeApp(); // Initialize Firebase
 
-  final prefs = await SharedPreferences.getInstance(); // Get SharedPreferences instance
-  final isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true; // Check for key or set default
+  final prefs =
+      await SharedPreferences.getInstance(); // Get SharedPreferences instance
+  final isFirstLaunch =
+      prefs.getBool('isFirstLaunch') ?? true; // Check for key or set default
   final isLoggedIn = await _isLoggedIn();
-  
-  runApp(MainApp(isFirstLaunch: isFirstLaunch, isLoggedIn: isLoggedIn));
+
+  runApp(ChangeNotifierProvider<ThemeProvider>(
+      create: (context) => ThemeProvider(),
+      child: MainApp(isFirstLaunch: isFirstLaunch, isLoggedIn: isLoggedIn)));
 }
 
 class MainApp extends StatefulWidget {
   final bool isFirstLaunch;
   final bool isLoggedIn;
 
-  const MainApp({super.key, required this.isFirstLaunch, required this.isLoggedIn});
+  const MainApp(
+      {super.key, required this.isFirstLaunch, required this.isLoggedIn});
 
   @override
   State<MainApp> createState() => _MainAppState();
 }
 
 class _MainAppState extends State<MainApp> {
-  final bool _isDarkMode = false;
   late final SharedPreferences prefs;
 
   @override
@@ -47,10 +53,11 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       title: 'Ink Wander',
       debugShowCheckedModeBanner: false,
-      theme: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
+      theme: themeProvider.isDarkMode ? ThemeData.dark() : ThemeData.light(),
       home: widget.isLoggedIn
           ? const HomePage() // Redirect to HomePage if logged in
           : widget.isFirstLaunch

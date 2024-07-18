@@ -17,6 +17,7 @@ dependencies:
   google_generative_ai: ^0.4.3
   google_sign_in: ^6.2.1
   image_picker: ^1.1.2
+  provider: ^6.1.2
   shared_preferences: ^2.2.3
 
 dev_dependencies:

@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ink_wander/services/favorites_firestore.dart';
+import 'package:ink_wander/services/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class TextDisplay extends StatefulWidget {
   const TextDisplay(
       {super.key,
       required this.prompt,
       required this.category,
-      this.isFavorite = false,
-      required this.isDarkMode});
+      this.isFavorite = false});
 
   final String prompt;
   final String category;
   final bool isFavorite;
-  final bool isDarkMode;
 
   @override
   State<TextDisplay> createState() => _TextDisplayState();
@@ -23,13 +23,11 @@ class TextDisplay extends StatefulWidget {
 
 class _TextDisplayState extends State<TextDisplay> {
   late bool _isFavorited;
-  bool _isDarkMode = true;
 
   @override
   void initState() {
     super.initState();
     _isFavorited = widget.isFavorite;
-    _isDarkMode = widget.isDarkMode;
   }
 
   void _onFavoriteButtonPressed() async {
@@ -102,17 +100,14 @@ class _TextDisplayState extends State<TextDisplay> {
     }
   }
 
-  void _toggleDarkMode() {
-    setState(() {
-      _isDarkMode = !_isDarkMode;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.isDarkMode;
+    final toggleTheme = Provider.of<ThemeProvider>(context).toggleTheme;
     final Color backgroundColor =
-        _isDarkMode ? Colors.black87 : Colors.white; // Dynamic background color
-    final Color textColor = _isDarkMode ? Colors.white : Colors.black;
+        isDarkMode ? Colors.black87 : Colors.white; // Dynamic background color
+    final Color textColor = isDarkMode ? Colors.white : Colors.black;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -152,10 +147,10 @@ class _TextDisplayState extends State<TextDisplay> {
           ),
           IconButton(
             icon: Icon(
-              _isDarkMode ? Icons.light_mode : Icons.dark_mode,
+              isDarkMode ? Icons.light_mode : Icons.dark_mode,
               color: textColor,
             ),
-            onPressed: _toggleDarkMode,
+            onPressed: toggleTheme,
           ),
         ],
       ),

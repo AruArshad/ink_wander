@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ink_wander/services/theme_provider.dart';
 import 'package:ink_wander/widgets/app_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoard {
@@ -28,7 +30,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   late PageController _pageController;
   int _pageIndex = 0;
   Timer? _timer;
-  bool _isDarkMode = false;
 
   final List<OnBoard> demoData = [
     OnBoard(
@@ -90,18 +91,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+    final toggleTheme = Provider.of<ThemeProvider>(context).toggleTheme;
     return Scaffold(
-      backgroundColor: _isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
       appBar: PreferredSize(
         preferredSize:
             const Size.fromHeight(kToolbarHeight), // Adjust height if needed
         child: MyAppBar(
-          isDarkMode: _isDarkMode,
-          onToggleDarkMode: () {
-            setState(() {
-              _isDarkMode = !_isDarkMode;
-            });
-          },
+          isDarkMode: isDarkMode,
+          onToggleDarkMode: toggleTheme,
         ),
       ),
       body: Stack(
@@ -136,7 +135,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       demoData[index].title,
                       style: GoogleFonts.lobster(
                         textStyle: TextStyle(
-                          color: _isDarkMode ? Colors.white : Colors.black,
+                          color: isDarkMode ? Colors.white : Colors.black,
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
@@ -148,7 +147,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.slabo27px(
                         textStyle: TextStyle(
-                          color: _isDarkMode ? Colors.white : Colors.black,
+                          color: isDarkMode ? Colors.white : Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -182,7 +181,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     child: Text('Prev',
                         style: TextStyle(
-                            color: _isDarkMode ? Colors.white : Colors.black)),
+                            color: isDarkMode ? Colors.white : Colors.black)),
                   ),
                 ElevatedButton(
                   onPressed: () {
@@ -207,7 +206,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: Text(
                       _pageIndex == demoData.length - 1 ? 'Finish' : 'Next',
                       style: TextStyle(
-                          color: _isDarkMode ? Colors.white : Colors.black)),
+                          color: isDarkMode ? Colors.white : Colors.black)),
                 ),
                 if (_pageIndex != demoData.length - 1)
                   TextButton(
@@ -221,7 +220,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: Text(
                       'Skip',
                       style: TextStyle(
-                          color: _isDarkMode ? Colors.white : Colors.black),
+                          color: isDarkMode ? Colors.white : Colors.black),
                     ),
                   ),
               ],

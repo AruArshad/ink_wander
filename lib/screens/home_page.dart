@@ -10,9 +10,11 @@ import 'package:ink_wander/services/category_prompt.dart';
 import 'package:ink_wander/services/favorites_firestore.dart';
 import 'package:ink_wander/services/generated_custom_prompt.dart';
 import 'package:ink_wander/services/home_prompt_generator.dart';
+import 'package:ink_wander/services/theme_provider.dart';
 import 'package:ink_wander/widgets/category_card.dart';
 import 'package:ink_wander/widgets/custom_prompt_form.dart';
 import 'package:ink_wander/widgets/user_info_popup.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,7 +24,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  bool _isDarkMode = false;
   String _selectedCategory = '';
   String? _generatedPrompt = '';
   // ignore: unused_field
@@ -36,9 +37,14 @@ class HomePageState extends State<HomePage> {
   void _showUserInfoPopup() {
     showDialog(
       context: context,
-      builder: (context) => UserInfoPopup(
+      builder: (context) {
+        final isDarkMode =
+            Provider.of<ThemeProvider>(context, listen: false).isDarkMode;
+        return UserInfoPopup(
           user: FirebaseAuth.instance.currentUser!,
-          isDarkMode: _isDarkMode), // Pass current user
+          isDarkMode: isDarkMode,
+        );
+      },
     );
   }
 
@@ -99,10 +105,8 @@ class HomePageState extends State<HomePage> {
         // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
-          builder: (context) => TextDisplay(
-              prompt: generatedPrompt,
-              category: _selectedCategory,
-              isDarkMode: _isDarkMode),
+          builder: (context) =>
+              TextDisplay(prompt: generatedPrompt, category: _selectedCategory),
         ),
       );
     } else {
@@ -117,8 +121,10 @@ class HomePageState extends State<HomePage> {
   }
 
   void _showConfirmationDialog(String category, String prompt) {
-    final Color backgroundColor = _isDarkMode ? Colors.black : Colors.white;
-    final Color textColor = _isDarkMode ? Colors.white : Colors.black;
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    final isDarkMode = themeProvider.isDarkMode;
+    final Color backgroundColor = isDarkMode ? Colors.black : Colors.white;
+    final Color textColor = isDarkMode ? Colors.white : Colors.black;
 
     setState(() {
       _selectedCategory = category;
@@ -177,11 +183,8 @@ class HomePageState extends State<HomePage> {
         // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
-          builder: (context) => TextDisplay(
-            prompt: generatedPrompt,
-            category: genre,
-            isDarkMode: _isDarkMode,
-          ),
+          builder: (context) =>
+              TextDisplay(prompt: generatedPrompt, category: genre),
         ),
       );
     } else {
@@ -203,9 +206,12 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkMode = themeProvider.isDarkMode;
+    final toggleTheme = Provider.of<ThemeProvider>(context).toggleTheme;
     final Color backgroundColor =
-        _isDarkMode ? Colors.black87 : Colors.white; // Dynamic background color
-    final Color textColor = _isDarkMode
+        isDarkMode ? Colors.black87 : Colors.white; // Dynamic background color
+    final Color textColor = isDarkMode
         ? Colors.white
         : Colors.black; // Dynamic text color for accessibility
 
@@ -251,7 +257,7 @@ class HomePageState extends State<HomePage> {
         }
       },
       child: Scaffold(
-        backgroundColor: _isDarkMode ? CustomColors.firebaseNavy : Colors.white,
+        backgroundColor: isDarkMode ? CustomColors.firebaseNavy : Colors.white,
         appBar: AppBar(
           title: Text(
             'Ink Wander',
@@ -261,13 +267,9 @@ class HomePageState extends State<HomePage> {
           ),
           centerTitle: true,
           leading: IconButton(
-            icon: Icon(_isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
+            icon: Icon(isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
             color: textColor,
-            onPressed: () {
-              setState(() {
-                _isDarkMode = !_isDarkMode;
-              });
-            },
+            onPressed: toggleTheme,
           ),
           actions: [
             IconButton(
@@ -284,7 +286,7 @@ class HomePageState extends State<HomePage> {
                 });
                 final favoritesFirestore = FavoritesFirestore();
                 await favoritesFirestore.showFavoritePromptsDialog(
-                    context, _isDarkMode);
+                    context, isDarkMode);
                 setState(() {
                   _isLoading = false;
                 });
@@ -327,7 +329,7 @@ class HomePageState extends State<HomePage> {
                             gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: _isDarkMode
+                              colors: isDarkMode
                                   ? [
                                       const Color(0xFF2196F3).withOpacity(
                                           0.6), // Deep Purple Accent
@@ -350,11 +352,11 @@ class HomePageState extends State<HomePage> {
                                   style: GoogleFonts.lora(
                                     textStyle: TextStyle(
                                       fontSize: 24,
-                                      fontWeight: _isDarkMode
+                                      fontWeight: isDarkMode
                                           ? FontWeight.bold
                                           : FontWeight
                                               .w600, // Adjust font weight for dark/light mode
-                                      color: _isDarkMode
+                                      color: isDarkMode
                                           ? Colors.white
                                           : Colors
                                               .black87, // Adjust text color for dark/light mode
@@ -415,7 +417,7 @@ class HomePageState extends State<HomePage> {
                                 isSelected: _selectedCategory == 'Fiction',
                                 onTap: () => _showConfirmationDialog(
                                     'Fiction', _generatedPrompt!),
-                                isDarkMode: _isDarkMode,
+                                isDarkMode: isDarkMode,
                               ),
                             ),
                             const SizedBox(width: 5.0),
@@ -426,7 +428,7 @@ class HomePageState extends State<HomePage> {
                                 isSelected: _selectedCategory == 'Poetry',
                                 onTap: () => _showConfirmationDialog(
                                     'Poetry', _generatedPrompt!),
-                                isDarkMode: _isDarkMode,
+                                isDarkMode: isDarkMode,
                               ),
                             ),
                           ],
@@ -442,7 +444,7 @@ class HomePageState extends State<HomePage> {
                                     _selectedCategory == 'Speechwriting',
                                 onTap: () => _showConfirmationDialog(
                                     'Speechwriting', _generatedPrompt!),
-                                isDarkMode: _isDarkMode,
+                                isDarkMode: isDarkMode,
                               ),
                             ),
                             const SizedBox(width: 5.0),
@@ -453,7 +455,7 @@ class HomePageState extends State<HomePage> {
                                 isSelected: _selectedCategory == 'Playwriting',
                                 onTap: () => _showConfirmationDialog(
                                     'Playwriting', _generatedPrompt!),
-                                isDarkMode: _isDarkMode,
+                                isDarkMode: isDarkMode,
                               ),
                             ),
                           ],
@@ -468,7 +470,7 @@ class HomePageState extends State<HomePage> {
                                 isSelected: _selectedCategory == 'Non-Fiction',
                                 onTap: () => _showConfirmationDialog(
                                     'Non-Fiction', _generatedPrompt!),
-                                isDarkMode: _isDarkMode,
+                                isDarkMode: isDarkMode,
                               ),
                             ),
                             const SizedBox(width: 5.0),
@@ -480,7 +482,7 @@ class HomePageState extends State<HomePage> {
                                     _selectedCategory == 'Screenwriting',
                                 onTap: () => _showConfirmationDialog(
                                     'Screenwriting', _generatedPrompt!),
-                                isDarkMode: _isDarkMode,
+                                isDarkMode: isDarkMode,
                               ),
                             ),
                           ],
@@ -495,7 +497,7 @@ class HomePageState extends State<HomePage> {
                                 isSelected: _selectedCategory == 'Romance',
                                 onTap: () => _showConfirmationDialog(
                                     'Romance', _generatedPrompt!),
-                                isDarkMode: _isDarkMode,
+                                isDarkMode: isDarkMode,
                               ),
                             ),
                             const SizedBox(width: 5.0),
@@ -506,7 +508,7 @@ class HomePageState extends State<HomePage> {
                                 isSelected: _selectedCategory == 'Mystery',
                                 onTap: () => _showConfirmationDialog(
                                     'Mystery', _generatedPrompt!),
-                                isDarkMode: _isDarkMode,
+                                isDarkMode: isDarkMode,
                               ),
                             ),
                           ],
@@ -517,7 +519,7 @@ class HomePageState extends State<HomePage> {
                   const SizedBox(height: 10.0),
                   CustomPromptForm(
                     onGenerate: _onCustomPromptGenerated,
-                    isDarkMode: _isDarkMode,
+                    isDarkMode: isDarkMode,
                     promptController: _promptController,
                     selectedGenre: _selectedGenre,
                     imageUrl: _imageUrl,

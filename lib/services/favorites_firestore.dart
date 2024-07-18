@@ -94,7 +94,6 @@ class FavoritesFirestore {
                                     prompt: favPrompt,
                                     category: prompt.category,
                                     isFavorite: prompt.isFavorite,
-                                    isDarkMode: isDarkMode,
                                   ),
                                 ),
                               );
