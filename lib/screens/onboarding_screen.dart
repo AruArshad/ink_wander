@@ -177,11 +177,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue, // Background color
                       textStyle: const TextStyle(
-                          color: Colors.white,
                           fontSize: 17.0,
                           fontWeight: FontWeight.bold), // Text color
                     ),
-                    child: const Text('Prev'),
+                    child: Text('Prev',
+                        style: TextStyle(
+                            color: _isDarkMode ? Colors.white : Colors.black)),
                   ),
                 ElevatedButton(
                   onPressed: () {
@@ -200,12 +201,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     backgroundColor:
                         Colors.green, // Background color for 'Next'/'Finish'
                     textStyle: const TextStyle(
-                        color: Colors.white,
                         fontSize: 17.0,
                         fontWeight: FontWeight.bold), // Text color
                   ),
                   child: Text(
-                      _pageIndex == demoData.length - 1 ? 'Finish' : 'Next'),
+                      _pageIndex == demoData.length - 1 ? 'Finish' : 'Next',
+                      style: TextStyle(
+                          color: _isDarkMode ? Colors.white : Colors.black)),
                 ),
                 if (_pageIndex != demoData.length - 1)
                   TextButton(
@@ -213,11 +215,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.red,
                       textStyle: const TextStyle(
-                          color: Colors.red,
                           fontSize: 17.0,
                           fontWeight: FontWeight.bold), // Text color for 'Skip'
                     ),
-                    child: const Text('Skip'),
+                    child: Text(
+                      'Skip',
+                      style: TextStyle(
+                          color: _isDarkMode ? Colors.white : Colors.black),
+                    ),
                   ),
               ],
             ),
