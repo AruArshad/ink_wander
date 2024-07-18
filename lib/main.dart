@@ -29,7 +29,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  final bool _isDarkMode = true;
+  final bool _isDarkMode = false;
   late final SharedPreferences prefs;
 
   @override
