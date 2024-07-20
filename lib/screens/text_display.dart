@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ink_wander/services/favorites_firestore.dart';
 import 'package:ink_wander/services/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -115,9 +114,9 @@ class _TextDisplayState extends State<TextDisplay> {
         backgroundColor: backgroundColor,
         title: Text(
           "Ink Wander",
-          style: GoogleFonts.margarine(
-            textStyle: TextStyle(color: textColor), // Use dynamic text color
-          ),
+          style: TextStyle(
+              color: textColor,
+              fontFamily: 'Margarine'), // Use dynamic text color
         ),
         leading: IconButton(
           // Change back button color
@@ -160,12 +159,8 @@ class _TextDisplayState extends State<TextDisplay> {
         child: Center(
           child: Text(
             widget.prompt,
-            style: GoogleFonts.sora(
-              textStyle: TextStyle(
-                color: textColor,
-                fontSize: 16,
-              ),
-            ),
+            style:
+                TextStyle(color: textColor, fontSize: 16, fontFamily: 'Sora'),
           ),
         ),
       ),

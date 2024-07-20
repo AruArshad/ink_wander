@@ -13,7 +13,6 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_native_splash: ^2.4.0
-  google_fonts: ^6.2.1
   google_generative_ai: ^0.4.3
   google_sign_in: ^6.2.1
   image_picker: ^1.1.2
@@ -31,6 +30,35 @@ flutter:
     - assets/images/
     - shorebird.yaml
 
+  fonts:
+    - family: Lobster
+      fonts:
+        - asset: assets/fonts/Lobster-Regular.ttf
+    - family: Slabo27px
+      fonts:
+        - asset: assets/fonts/Slabo27px-Regular.ttf
+    - family: Merienda
+      fonts:
+        - asset: assets/fonts/Merienda-Regular.ttf
+    - family: Margarine
+      fonts:
+        - asset: assets/fonts/Margarine-Regular.ttf
+    - family: Lora
+      fonts:
+        - asset: assets/fonts/Lora-Regular.ttf
+    - family: Sora
+      fonts:
+        - asset: assets/fonts/Sora-Regular.ttf
+    - family: BodoniModa
+      fonts:
+        - asset: assets/fonts/BodoniModa-Regular.ttf
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Regular.ttf
+    - family: JosefinSans
+      fonts:
+        - asset: assets/fonts/JosefinSans-Regular.ttf
+      
 flutter_native_splash:
   background_image: "assets/images/splash.jpeg"  
   android: true                                 

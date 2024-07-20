@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ink_wander/services/theme_provider.dart';
 import 'package:ink_wander/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
@@ -133,25 +132,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     const SizedBox(height: 20),
                     Text(
                       demoData[index].title,
-                      style: GoogleFonts.lobster(
-                        textStyle: TextStyle(
+                      style: TextStyle(
                           color: isDarkMode ? Colors.white : Colors.black,
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                          fontFamily: 'Lobster'),
                     ),
                     const SizedBox(height: 10),
                     Text(
                       demoData[index].description,
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.slabo27px(
-                        textStyle: TextStyle(
+                      style: TextStyle(
                           color: isDarkMode ? Colors.white : Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                          fontFamily: 'Slabo27px'),
                     ),
                   ],
                 ),

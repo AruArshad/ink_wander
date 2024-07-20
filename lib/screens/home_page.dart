@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ink_wander/api_key.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:ink_wander/screens/text_display.dart';
@@ -261,9 +260,9 @@ class HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Text(
             'Ink Wander',
-            style: GoogleFonts.margarine(
-              textStyle: TextStyle(color: textColor), // Use dynamic text color
-            ),
+            style: TextStyle(
+                color: textColor,
+                fontFamily: 'Margarine'), // Use dynamic text color
           ),
           centerTitle: true,
           leading: IconButton(
@@ -349,26 +348,25 @@ class HomePageState extends State<HomePage> {
                                   color: textColor) // Show progress indicator
                               : Text(
                                   _generatedPrompt!,
-                                  style: GoogleFonts.lora(
-                                    textStyle: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: isDarkMode
-                                          ? FontWeight.bold
-                                          : FontWeight
-                                              .w600, // Adjust font weight for dark/light mode
-                                      color: isDarkMode
-                                          ? Colors.white
-                                          : Colors
-                                              .black87, // Adjust text color for dark/light mode
-                                      shadows: [
-                                        Shadow(
-                                          offset: const Offset(2.0, 2.0),
-                                          blurRadius: 4.0,
-                                          color: Colors.black.withOpacity(
-                                              0.2), // Adjust shadow color for dark mode
-                                        ),
-                                      ],
-                                    ),
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontFamily: 'Lora',
+                                    fontWeight: isDarkMode
+                                        ? FontWeight.bold
+                                        : FontWeight
+                                            .w600, // Adjust font weight for dark/light mode
+                                    color: isDarkMode
+                                        ? Colors.white
+                                        : Colors
+                                            .black87, // Adjust text color for dark/light mode
+                                    shadows: [
+                                      Shadow(
+                                        offset: const Offset(2.0, 2.0),
+                                        blurRadius: 4.0,
+                                        color: Colors.black.withOpacity(
+                                            0.2), // Adjust shadow color for dark mode
+                                      ),
+                                    ],
                                   ),
                                   textAlign: TextAlign.center,
                                 ),

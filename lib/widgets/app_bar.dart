@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isDarkMode;
@@ -13,15 +12,18 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color backgroundColor = isDarkMode ? Colors.black87 : Colors.white; // Dynamic background color
-    final Color textColor = isDarkMode ? Colors.white : Colors.black; // Dynamic text color for accessibility
+    final Color backgroundColor =
+        isDarkMode ? Colors.black87 : Colors.white; // Dynamic background color
+    final Color textColor = isDarkMode
+        ? Colors.white
+        : Colors.black; // Dynamic text color for accessibility
 
     return AppBar(
       title: Text(
         'Ink Wander',
-        style: GoogleFonts.margarine(
-          textStyle: TextStyle(color: textColor), // Use dynamic text color
-        ),
+        style: TextStyle(
+            color: textColor,
+            fontFamily: 'Margarine'), // Use dynamic text color
       ),
       centerTitle: true,
       leading: IconButton(
