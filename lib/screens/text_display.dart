@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ink_wander/services/favorites_firestore.dart';
 import 'package:ink_wander/services/theme_provider.dart';
+import 'package:ink_wander/widgets/banner_ad.dart';
+import 'package:ink_wander/widgets/interstitial_ad.dart';
 import 'package:provider/provider.dart';
 
 class TextDisplay extends StatefulWidget {
@@ -153,16 +155,35 @@ class _TextDisplayState extends State<TextDisplay> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        // Make the body scrollable
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Text(
-            widget.prompt,
-            style:
-                TextStyle(color: textColor, fontSize: 16, fontFamily: 'Sora'),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            // Make the body scrollable
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const InterstitialAdWidget(),
+                Center(
+                  child: Text(
+                    widget.prompt,
+                    style: TextStyle(
+                        color: textColor, fontSize: 16, fontFamily: 'Sora'),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+              ],
+            ),
           ),
-        ),
+          // Fixed Banner Ad at the bottom
+          const Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: MyBannerAdWidget(),
+          ),
+        ],
       ),
     );
   }
