@@ -14,6 +14,7 @@ import 'package:ink_wander/widgets/banner_ad.dart';
 import 'package:ink_wander/widgets/category_card.dart';
 import 'package:ink_wander/widgets/custom_prompt_form.dart';
 import 'package:ink_wander/widgets/interstitial_ad.dart';
+import 'package:ink_wander/widgets/rewarded_ad.dart';
 import 'package:ink_wander/widgets/user_info_popup.dart';
 import 'package:provider/provider.dart';
 
@@ -34,6 +35,7 @@ class HomePageState extends State<HomePage> {
   final TextEditingController _promptController = TextEditingController();
   String _selectedGenre = 'Fiction';
   String? _imageUrl;
+  final _rewardedAdWidget = RewardedAdWidget();
 
   void _showUserInfoPopup() {
     showDialog(
@@ -203,6 +205,13 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _showGeneratedPrompt();
+    _rewardedAdWidget.initRewardedAd();
+  }
+
+  @override
+  void dispose() {
+    _rewardedAdWidget.disposeRewardedAd();
+    super.dispose();
   }
 
   @override
@@ -530,6 +539,11 @@ class HomePageState extends State<HomePage> {
                   const MyBannerAdWidget(),
                   const SizedBox(height: 10.0),
                   const InterstitialAdWidget(),
+                  ElevatedButton(
+                    onPressed: () => _rewardedAdWidget.showRewardedAd(),
+                    child: const Text('Watch A Video Ad To Support Us'),
+                  ),
+                  const SizedBox(height: 10.0),
                 ],
               ),
             ),
