@@ -13,7 +13,6 @@ import 'package:ink_wander/services/theme_provider.dart';
 import 'package:ink_wander/widgets/banner_ad.dart';
 import 'package:ink_wander/widgets/category_card.dart';
 import 'package:ink_wander/widgets/custom_prompt_form.dart';
-import 'package:ink_wander/widgets/interstitial_ad.dart';
 import 'package:ink_wander/widgets/rewarded_ad.dart';
 import 'package:ink_wander/widgets/user_info_popup.dart';
 import 'package:provider/provider.dart';
@@ -538,7 +537,6 @@ class HomePageState extends State<HomePage> {
                   const SizedBox(height: 10.0),
                   const MyBannerAdWidget(),
                   const SizedBox(height: 10.0),
-                  const InterstitialAdWidget(),
                   ElevatedButton(
                     onPressed: () => _rewardedAdWidget.showRewardedAd(),
                     child: const Text('Watch A Video Ad To Support Us'),
