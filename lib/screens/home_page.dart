@@ -527,6 +527,11 @@ class HomePageState extends State<HomePage> {
                   const SizedBox(height: 10.0),
                   const MyBannerAdWidget(),
                   const SizedBox(height: 10.0),
+                  ElevatedButton(
+                    onPressed: () => _rewardedAdWidget.showRewardedAd(),
+                    child: const Text('Watch A Video Ad To Support Us'),
+                  ),
+                  const SizedBox(height: 10.0),
                   CustomPromptForm(
                     onGenerate: _onCustomPromptGenerated,
                     isDarkMode: isDarkMode,

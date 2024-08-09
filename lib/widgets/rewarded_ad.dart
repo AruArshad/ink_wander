@@ -15,7 +15,7 @@ class RewardedAdWidget {
 
   void _loadRewardedAd() {
     RewardedAd.load(
-      adUnitId: 'ca-app-pub-3940256099942544/5224354917', // Test ad unit ID
+      adUnitId: 'ca-app-pub-3168501848559608/9064929932', // Test ad unit ID
       // adUnitId: 'YOUR_AD_UNIT_ID', // Replace with your production ad unit ID
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
