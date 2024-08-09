@@ -13,6 +13,7 @@ class MyBannerAdWidget extends StatefulWidget {
   //     // ... or this one on iOS.
   //     : 'ca-app-pub-3940256099942544/2934735716';
 
+  // ca-app-pub-3940256099942544/9214589741 // test ad unit
   final String adUnitId = 'ca-app-pub-3168501848559608/8899372421';
 
   const MyBannerAdWidget({

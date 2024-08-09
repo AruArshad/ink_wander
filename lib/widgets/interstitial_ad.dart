@@ -20,7 +20,8 @@ class _InterstitialAdWidgetState extends State<InterstitialAdWidget> {
   void _createInterstitialAd() {
     InterstitialAd.load(
       adUnitId:
-          'ca-app-pub-3168501848559608/6255530230', // Replace with your ad unit ID
+          // ca-app-pub-3940256099942544/1033173712 // Test Ad Unit ID
+          'ca-app-pub-3168501848559608/6255530230',
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
