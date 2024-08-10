@@ -226,8 +226,8 @@ class HomePageState extends State<HomePage> {
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) async {
-        if (didPop) return;
+      onPopInvokedWithResult: (contxt, result) async {
+        if (result == true) return;
         final shouldExit = await showDialog(
           context: context,
           builder: (context) => AlertDialog(
