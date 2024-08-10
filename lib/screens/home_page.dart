@@ -226,8 +226,8 @@ class HomePageState extends State<HomePage> {
 
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (contxt, result) async {
-        if (result == true) return;
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
         final shouldExit = await showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -527,10 +527,6 @@ class HomePageState extends State<HomePage> {
                   const SizedBox(height: 10.0),
                   const MyBannerAdWidget(),
                   const SizedBox(height: 10.0),
-                  ElevatedButton(
-                    onPressed: () => _rewardedAdWidget.showRewardedAd(),
-                    child: const Text('Watch A Video Ad To Support Us'),
-                  ),
                   const SizedBox(height: 10.0),
                   CustomPromptForm(
                     onGenerate: _onCustomPromptGenerated,
