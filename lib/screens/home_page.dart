@@ -527,7 +527,6 @@ class HomePageState extends State<HomePage> {
                   const SizedBox(height: 10.0),
                   const MyBannerAdWidget(),
                   const SizedBox(height: 10.0),
-                  const SizedBox(height: 10.0),
                   CustomPromptForm(
                     onGenerate: _onCustomPromptGenerated,
                     isDarkMode: isDarkMode,
