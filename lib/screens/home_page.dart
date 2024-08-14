@@ -546,7 +546,7 @@ class HomePageState extends State<HomePage> {
                   const SizedBox(height: 10.0),
                   ElevatedButton(
                     onPressed: () => _rewardedAdWidget.showRewardedAd(),
-                    child: const Text('Watch A Video Ad To Support Us'),
+                    child: const Text('Sponsored Video'),
                   ),
                   const SizedBox(height: 10.0),
                 ],
