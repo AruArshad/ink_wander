@@ -5,11 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:ink_wander/api_key.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:ink_wander/screens/text_display.dart';
+import 'package:ink_wander/services/app_lifecycle_reactor.dart';
 import 'package:ink_wander/services/category_prompt.dart';
 import 'package:ink_wander/services/favorites_firestore.dart';
 import 'package:ink_wander/services/generated_custom_prompt.dart';
 import 'package:ink_wander/services/home_prompt_generator.dart';
 import 'package:ink_wander/services/theme_provider.dart';
+import 'package:ink_wander/widgets/app_open_ad.dart';
 import 'package:ink_wander/widgets/banner_ad.dart';
 import 'package:ink_wander/widgets/category_card.dart';
 import 'package:ink_wander/widgets/custom_prompt_form.dart';
@@ -35,6 +37,7 @@ class HomePageState extends State<HomePage> {
   String _selectedGenre = 'Fiction';
   String? _imageUrl;
   final _rewardedAdWidget = RewardedAdWidget();
+  late AppLifecycleReactor _appLifecycleReactor;
 
   void _showUserInfoPopup() {
     showDialog(
@@ -205,6 +208,10 @@ class HomePageState extends State<HomePage> {
     super.initState();
     _showGeneratedPrompt();
     _rewardedAdWidget.initRewardedAd();
+    AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
+    _appLifecycleReactor =
+        AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
+    _appLifecycleReactor.listenToAppStateChanges();
   }
 
   @override
@@ -524,7 +531,7 @@ class HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10.0),
+                  const SizedBox(height: 5.0),
                   const MyBannerAdWidget(),
                   const SizedBox(height: 10.0),
                   CustomPromptForm(

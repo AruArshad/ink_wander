@@ -65,6 +65,8 @@ class _MyBannerAdWidgetState extends State<MyBannerAdWidget> {
       listener: BannerAdListener(
         // Called when an ad is successfully received.
         onAdLoaded: (ad) {
+          debugPrint(
+              '$ad loaded: ${ad.responseInfo?.mediationAdapterClassName}');
           if (!mounted) {
             ad.dispose();
             return;

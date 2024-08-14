@@ -25,6 +25,8 @@ class _InterstitialAdWidgetState extends State<InterstitialAdWidget> {
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
+          debugPrint(
+              '$ad loaded: ${ad.responseInfo?.mediationAdapterClassName}');
           _interstitialAd = ad;
           _interstitialAd?.show();
         },

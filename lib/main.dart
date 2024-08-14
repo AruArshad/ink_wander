@@ -3,21 +3,36 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:ink_wander/screens/home_page.dart';
-import 'package:ink_wander/services/foreground_provider.dart';
 import 'package:ink_wander/services/theme_provider.dart';
-import 'package:ink_wander/widgets/app_open_ad.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/onboarding_screen.dart';
 import 'package:ink_wander/screens/login.dart';
 
 void main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); // Wait for preferences to initialize
-  unawaited(MobileAds.instance.initialize());
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize().then((initializationStatus) {
+    initializationStatus.adapterStatuses.forEach((key, value) {
+      debugPrint('Adapter status for $key: ${value.description}');
+    });
+  });
+
+  // Set a wait timer
+  //   return Future.delayed(const Duration(seconds: 5)); // Wait for 5 seconds
+  // }).then((_) {
+  //   // After the delay, open the Ad Inspector
+  //   MobileAds.instance.openAdInspector((dynamic error) {
+  //     if (error != null) {
+  //       // Handle the error here
+  //       debugPrint('Ad Inspector Error: ${error.toString()}');
+  //     } else {
+  //       // Ad Inspector opened successfully
+  //       debugPrint('Ad Inspector opened successfully');
+  //     }
+  //   });
+  // });
   await Firebase.initializeApp(); // Initialize Firebase
 
   final prefs =
@@ -27,7 +42,6 @@ void main() async {
   final isLoggedIn = await _isLoggedIn();
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => AppForegroundState()),
     ChangeNotifierProvider(create: (_) => ThemeProvider()),
   ], child: MainApp(isFirstLaunch: isFirstLaunch, isLoggedIn: isLoggedIn)));
 }
@@ -56,23 +70,6 @@ class _MainAppState extends State<MainApp> {
       if (widget.isFirstLaunch) {
         await prefs.setBool('isFirstLaunch', false);
       }
-    });
-    AppOpenAdManager.loadAd();
-    _listenForAppForegrounding();
-  }
-
-  void _listenForAppForegrounding() {
-    SystemChannels.lifecycle.setMessageHandler((message) {
-      if (message == AppLifecycleState.resumed.toString()) {
-        Provider.of<AppForegroundState>(context, listen: false)
-            .setIsForeground(true);
-        AppOpenAdManager.showAdIfAvailable();
-      } else {
-        Provider.of<AppForegroundState>(context, listen: false)
-            .setIsForeground(false);
-      }
-      debugPrint('AppLifecycleState: $message');
-      return Future.value(message);
     });
   }
 

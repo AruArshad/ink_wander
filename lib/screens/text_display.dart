@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,11 +26,18 @@ class TextDisplay extends StatefulWidget {
 
 class _TextDisplayState extends State<TextDisplay> {
   late bool _isFavorited;
+  bool _canShowAd = false;
 
   @override
   void initState() {
     super.initState();
     _isFavorited = widget.isFavorite;
+    Timer(const Duration(seconds: 5), () {
+      setState(() {
+        debugPrint("state change Timer ended");
+        _canShowAd = true;
+      });
+    });
   }
 
   void _onFavoriteButtonPressed() async {
@@ -162,7 +171,7 @@ class _TextDisplayState extends State<TextDisplay> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                const InterstitialAdWidget(),
+                _canShowAd ? const InterstitialAdWidget() : Container(),
                 Center(
                   child: Text(
                     widget.prompt,

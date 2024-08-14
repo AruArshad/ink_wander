@@ -20,7 +20,8 @@ class RewardedAdWidget {
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (RewardedAd ad) {
-          debugPrint('$ad loaded.');
+          debugPrint(
+              '$ad loaded: ${ad.responseInfo?.mediationAdapterClassName}');
           _rewardedAd = ad;
           _isRewardedAdLoaded = true;
         },
