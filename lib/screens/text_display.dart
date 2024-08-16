@@ -34,10 +34,15 @@ class _TextDisplayState extends State<TextDisplay> {
     _isFavorited = widget.isFavorite;
     Timer(const Duration(seconds: 5), () {
       setState(() {
-        debugPrint("state change Timer ended");
+        debugPrint("Timer ended");
         _canShowAd = true;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void _onFavoriteButtonPressed() async {

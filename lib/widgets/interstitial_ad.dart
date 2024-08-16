@@ -25,6 +25,18 @@ class _InterstitialAdWidgetState extends State<InterstitialAdWidget> {
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+          // Called when the ad failed to show full screen content.
+            onAdFailedToShowFullScreenContent: (ad, err) {
+              // Dispose the ad here to free resources.
+              ad.dispose();
+            },
+            // Called when the ad dismissed full screen content.
+            onAdDismissedFullScreenContent: (ad) {
+              // Dispose the ad here to free resources.
+              ad.dispose();
+            },
+          );
           debugPrint(
               '$ad loaded: ${ad.responseInfo?.mediationAdapterClassName}');
           _interstitialAd = ad;

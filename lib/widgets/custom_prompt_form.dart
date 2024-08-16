@@ -47,8 +47,8 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
 
   @override
   void dispose() {
-    widget.promptController.dispose();
     super.dispose();
+    widget.promptController.dispose();
   }
 
   @override

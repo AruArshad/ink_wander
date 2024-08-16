@@ -29,17 +29,24 @@ class CustomPromptGenerator {
     var imageParts = [];
 
     final finalprompt = TextPart('''
-            Write a creative text based on the user input. If user didn't enter anything, give an example:
+        Craft a compelling narrative inspired by:
 
-            * Prompt: $prompt (optional image: $imageUrl)
-            * Genre: $genre
-            * Word Count: $wordCount
+        * **Prompt:** $prompt (Visual reference: $imageUrl)
+        * **Genre:** $genre
+        * **Word Count:** $wordCount
 
-            Output will include:
+        Deliver a captivating story that:
 
-            * Genre: (displayed text)
-            * Word Count: (displayed text)
-            ''');
+        * Adheres to the specified genre.
+        * Effectively utilizes the provided prompt or image.
+        * Meets the exact word count requirement.
+
+        Output will always include:
+
+        * Genre: $genre
+        * Word Count: $wordCount
+        * Prompt: $prompt
+      ''');
     if (image != null) {
       imageParts = [
         DataPart('image/jpeg', image),

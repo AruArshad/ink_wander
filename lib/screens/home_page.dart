@@ -80,11 +80,10 @@ class HomePageState extends State<HomePage> {
       _promptController.text = ''; // Clear prompt text (optional)
       _selectedGenre = 'Fiction'; // Reset genre (optional)
       _imageUrl = null; // Reset image URL (optional)
-    });
-    _showGeneratedPrompt(); // Re-fetch prompt
-    setState(() {
+
       _isRefreshing = false; // Reset flag after refresh
     });
+    _showGeneratedPrompt(); // Re-fetch prompt
   }
 
   void _onCategoryTap(String category, String prompt) async {
