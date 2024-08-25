@@ -4,36 +4,37 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:ink_wander/screens/login.dart';
+import 'package:ink_wander/screens/onboarding_screen.dart';
 import 'package:ink_wander/utils/authentication.dart';
 
 class UserInfoPopup extends StatefulWidget {
-  const UserInfoPopup({super.key, required this.user, required this.isDarkMode});
+  const UserInfoPopup(
+      {super.key, required this.user, required this.isDarkMode});
 
   final User user;
   final bool isDarkMode;
-    
+
   @override
   State<UserInfoPopup> createState() => _UserInfoPopupState();
 }
 
 Route _routeToSignInScreen() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const Login(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = const Offset(-1.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => const Login(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = const Offset(-1.0, 0.0);
+      var end = Offset.zero;
+      var curve = Curves.ease;
 
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
 
 class _UserInfoPopupState extends State<UserInfoPopup> {
   late User _user;
@@ -57,7 +58,7 @@ class _UserInfoPopupState extends State<UserInfoPopup> {
             _user.photoURL != null
                 ? ClipOval(
                     child: Material(
-                     color: widget.isDarkMode
+                      color: widget.isDarkMode
                           ? CustomColors.firebaseGrey.withOpacity(0.3)
                           : Colors.grey.withOpacity(0.3),
                       child: Image.network(
@@ -91,6 +92,7 @@ class _UserInfoPopupState extends State<UserInfoPopup> {
                 color: widget.isDarkMode ? Colors.white : Colors.black,
                 fontSize: 26,
               ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8.0),
             Text(
@@ -100,34 +102,63 @@ class _UserInfoPopupState extends State<UserInfoPopup> {
                 fontSize: 20,
                 letterSpacing: 0.5,
               ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24.0),
-
+            ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all(
+                    widget.isDarkMode
+                        ? const Color.fromARGB(255, 43, 152, 196)
+                        : const Color.fromARGB(255, 20, 233, 91),
+                  ),
+                  shape: WidgetStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const OnboardingScreen()));
+                },
+                child: const Text(
+                  "Show Onboarding Screen",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 2,
+                  ),
+                  textAlign: TextAlign.center,
+                )),
+            const SizedBox(height: 24.0),
             // Sign out button
             _isSigningOut
                 ? const CircularProgressIndicator() // Show progress indicator
                 : ElevatedButton(
-                  style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(
                         widget.isDarkMode ? Colors.redAccent : Colors.red,
                       ),
-                        shape: WidgetStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                      shape: WidgetStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
+                    ),
                     onPressed: () async {
-                        setState(() {
-                          _isSigningOut = true;
-                        });
-                        await Authentication.signOut(context: context);
-                        setState(() {
-                          _isSigningOut = false;
-                        });
-                        Navigator.of(context)
-                            .push(_routeToSignInScreen());
-                      },
+                      setState(() {
+                        _isSigningOut = true;
+                      });
+                      await Authentication.signOut(context: context);
+                      setState(() {
+                        _isSigningOut = false;
+                      });
+                      Navigator.of(context).push(_routeToSignInScreen());
+                    },
                     child: const Padding(
                       padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                       child: Text(

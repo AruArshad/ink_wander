@@ -232,7 +232,7 @@ class HomePageState extends State<HomePage> {
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
         final shouldExit = await showDialog(
           context: context,

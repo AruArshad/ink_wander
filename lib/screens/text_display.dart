@@ -176,7 +176,7 @@ class _TextDisplayState extends State<TextDisplay> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                _canShowAd ? const InterstitialAdWidget() : Container(),
+                if (_canShowAd) const InterstitialAdWidget(),
                 Center(
                   child: Text(
                     widget.prompt,
