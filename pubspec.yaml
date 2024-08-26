@@ -14,16 +14,16 @@ dependencies:
     sdk: flutter
   flutter_native_splash: ^2.4.0
   google_generative_ai: ^0.4.3
-  google_mobile_ads: ^5.1.0
+  # google_mobile_ads: ^5.1.0
   google_sign_in: ^6.2.1
   image_picker: ^1.1.2
   provider: ^6.1.2
   shared_preferences: ^2.2.3
-  gma_mediation_meta: ^1.0.1
-  gma_mediation_unity: ^1.0.0
-  gma_mediation_ironsource: ^1.0.0
-  gma_mediation_inmobi: ^1.0.0
-  gma_mediation_liftoffmonetize: ^1.0.0
+  # gma_mediation_meta: ^1.0.1
+  # gma_mediation_unity: ^1.0.0
+  # gma_mediation_ironsource: ^1.0.0
+  # gma_mediation_inmobi: ^1.0.0
+  # gma_mediation_liftoffmonetize: ^1.0.0
 
 dev_dependencies:
   flutter_test:

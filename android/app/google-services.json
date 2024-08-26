@@ -22,40 +22,19 @@
           }
         },
         {
-          "client_id": "69719377534-eet51t7p37e8jefha4qu5n4hv4qdoa8o.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyASqwuzTK61ky8pSNTIWr8qU2yfpWV1WBk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "69719377534-eet51t7p37e8jefha4qu5n4hv4qdoa8o.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:69719377534:android:8dde00af07ffad9391fa2f",
-        "android_client_info": {
-          "package_name": "com.example.ink_wander"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "69719377534-vq3nhvnkg1fedlcfo3b77t21vjbho1kb.apps.googleusercontent.com",
+          "client_id": "69719377534-g8oo2c0tbgsuup5avf3o5rs41ibur8rf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.ink_wander",
-            "certificate_hash": "2fff5a25341b107e6a588df386dd19cdd85d8cc1"
+            "package_name": "com.app.ink_wander",
+            "certificate_hash": "f779fff1d8f8a6d291f592b4546807d55352a05e"
+          }
+        },
+        {
+          "client_id": "69719377534-t4hjclhho7b8uu8fsi1a7c0a33ir6hjt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.ink_wander",
+            "certificate_hash": "22b115c980c8b2a37a96af9058a1f7aeb96ab62c"
           }
         },
         {
@@ -74,10 +53,18 @@
             {
               "client_id": "69719377534-eet51t7p37e8jefha4qu5n4hv4qdoa8o.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "69719377534-7cvv8csvqo8c79l9d98osjge43j5r2lh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.inkWander"
+              }
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-3168501848559608~7656108362"
     }
   ],
   "configuration_version": "1"

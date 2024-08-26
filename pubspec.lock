@@ -264,46 +264,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  gma_mediation_inmobi:
-    dependency: "direct main"
-    description:
-      name: gma_mediation_inmobi
-      sha256: bb42aa60c656903c0db2632b7c5c38706d8a9a55326a08a36f784ee75d588790
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
-  gma_mediation_ironsource:
-    dependency: "direct main"
-    description:
-      name: gma_mediation_ironsource
-      sha256: "6fb1eff6b06b1b61486b75ee16a884bea819191a8888c186dd455b7ca6789c38"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
-  gma_mediation_liftoffmonetize:
-    dependency: "direct main"
-    description:
-      name: gma_mediation_liftoffmonetize
-      sha256: ff8a70eb2055607dd1589a86d35e0cd749bdad5f655497f5435e33dcd58d17ed
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
-  gma_mediation_meta:
-    dependency: "direct main"
-    description:
-      name: gma_mediation_meta
-      sha256: fdaee3eca75ec0257a214787a14a0c0b111976c94684c9aacbe9444734867d2b
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
-  gma_mediation_unity:
-    dependency: "direct main"
-    description:
-      name: gma_mediation_unity
-      sha256: "53989b6fffc4e424f83b5a9d521ca546e612d9fce24767f321676376e48dbe5b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   google_generative_ai:
     dependency: "direct main"
     description:
@@ -320,14 +280,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.1+4"
-  google_mobile_ads:
-    dependency: "direct main"
-    description:
-      name: google_mobile_ads
-      sha256: e2d18992d30b2be77cb6976b931112fc3c4612feffb5eb7a8b036bd7a64934da
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.1.0"
   google_sign_in:
     dependency: "direct main"
     description:
@@ -749,38 +701,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
-  webview_flutter:
-    dependency: transitive
-    description:
-      name: webview_flutter
-      sha256: "6869c8786d179f929144b4a1f86e09ac0eddfe475984951ea6c634774c16b522"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.8.0"
-  webview_flutter_android:
-    dependency: transitive
-    description:
-      name: webview_flutter_android
-      sha256: c66651fba15f9d7ddd31daec42da8d6bce46c85610a7127e3ebcb39a4395c3c9
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.16.6"
-  webview_flutter_platform_interface:
-    dependency: transitive
-    description:
-      name: webview_flutter_platform_interface
-      sha256: d937581d6e558908d7ae3dc1989c4f87b786891ab47bb9df7de548a151779d8d
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.10.0"
-  webview_flutter_wkwebview:
-    dependency: transitive
-    description:
-      name: webview_flutter_wkwebview
-      sha256: "9c62cc46fa4f2d41e10ab81014c1de470a6c6f26051a2de32111b2ee55287feb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.14.0"
   xdg_directories:
     dependency: transitive
     description:
