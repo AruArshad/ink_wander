@@ -127,14 +127,14 @@ class _UserInfoPopupState extends State<UserInfoPopup> {
                 child: const Text(
                   "Show Onboarding Screen",
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     letterSpacing: 2,
                   ),
                   textAlign: TextAlign.center,
                 )),
-            const SizedBox(height: 24.0),
+            const SizedBox(height: 15.0),
             // Sign out button
             _isSigningOut
                 ? const CircularProgressIndicator() // Show progress indicator

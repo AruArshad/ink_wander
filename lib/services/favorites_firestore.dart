@@ -24,129 +24,19 @@ class FavoritesFirestore {
     return generatedId;
   }
 
-  Future<void> showFavoritePromptsDialog(
-      BuildContext context, bool isDarkMode) async {
-    final userId = FirebaseAuth.instance.currentUser?.uid;
-
-    if (userId == null) {
-      // Handle case where user is not signed in
-      return;
-    }
-
-    final fullPrompt = await _getFullPromptByUser(userId);
-
-    if (fullPrompt == '') {
-      // Handle case where user has no favorites
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('You have no favorited prompts yet!'),
-        ),
-      );
-      return;
-    }
-
-    final favorites = await _getFavoritePrompts(userId);
-
-    // Sort prompts alphabetically (optional)
-    favorites.sort((a, b) => a.prompt.compareTo(b.prompt));
-
-    showDialog(
-      // ignore: use_build_context_synchronously
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          child: SizedBox(
-            width: double.infinity,
-            height: 650,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Your Favorites',
-                    style: TextStyle(
-                      fontSize: 25.0,
-                      fontFamily: 'Margarine',
-                      fontWeight: FontWeight.bold,
-                      color: isDarkMode ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: favorites.length,
-                    itemBuilder: (context, index) {
-                      final prompt = favorites[index];
-                      final favPrompt = fullPrompt;
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(30.0),
-                        child: FavoritePromptTile(
-                          prompt: prompt,
-                          isDarkMode: isDarkMode,
-                          onTap: () async {
-                            Navigator.pop(context);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TextDisplay(
-                                  prompt: favPrompt,
-                                  category: prompt.category,
-                                  isFavorite: prompt.isFavorite,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Center(
-                  child: SizedBox(
-                    width: 100.0, // Adjust width as desired
-                    height: 50.0, // Adjust height as desired
-                    child: ElevatedButton(
-                      onPressed: () => Navigator.pop(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: isDarkMode
-                            ? const Color.fromARGB(255, 179, 53, 53)
-                            : const Color.fromARGB(255, 230, 19, 19),
-                        foregroundColor: Colors.white,
-                      ),
-                      child: const Text('Close'),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Future<List<Prompt>> _getFavoritePrompts(String userId) async {
-    final querySnapshot = await FavoritesFirestore.firestore
+  Future<QuerySnapshot> getFavoritePrompts(String userId,
+      [DocumentSnapshot? startAfter]) {
+    Query query = FavoritesFirestore.firestore
         .collection('prompts')
         .where('userId', isEqualTo: userId)
         .where('isFavorite', isEqualTo: true)
-        .get();
+        .limit(5);
 
-    final favorites = querySnapshot.docs.map((doc) {
-      final promptData = doc.data();
-      final prompt = Prompt.fromMap(promptData);
-      final oneLinePrompt = prompt.prompt.substring(0, 120) +
-          (prompt.prompt.length > 120 ? '...' : ''); // Truncate with ellipsis
-      return prompt.copyWith(
-        prompt: oneLinePrompt,
-      ); // Update prompt with truncated version
-    }).toList();
+    if (startAfter != null) {
+      query = query.startAfterDocument(startAfter);
+    }
 
-    return favorites;
+    return query.get();
   }
 
   Future<String> _getFullPromptByUser(String userId) async {
@@ -205,5 +95,195 @@ class FavoritesFirestore {
         ),
       );
     }
+  }
+
+  Future<void> showFavoritePromptsDialog(
+      BuildContext context, bool isDarkMode) async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+
+    if (userId == null) {
+      // Handle case where user is not signed in
+      return;
+    }
+
+    final fullPrompt = await _getFullPromptByUser(userId);
+
+    if (fullPrompt == '') {
+      // Handle case where user has no favorites
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('You have no favorited prompts yet!'),
+        ),
+      );
+      return;
+    }
+
+    showDialog(
+      // ignore: use_build_context_synchronously
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: isDarkMode ? Colors.black : Colors.white,
+          child: SizedBox(
+            width: double.infinity,
+            height: 650,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Your Favorites',
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      fontFamily: 'Margarine',
+                      fontWeight: FontWeight.bold,
+                      color: isDarkMode ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: FavoritePromptsList(
+                    userId: userId,
+                    isDarkMode: isDarkMode,
+                    fullPrompt: fullPrompt,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Center(
+                  child: SizedBox(
+                    width: 100.0,
+                    height: 50.0,
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isDarkMode
+                            ? const Color.fromARGB(255, 179, 53, 53)
+                            : const Color.fromARGB(255, 230, 19, 19),
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text('Close'),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class FavoritePromptsList extends StatefulWidget {
+  final String userId;
+  final bool isDarkMode;
+  final String fullPrompt;
+
+  const FavoritePromptsList({
+    super.key,
+    required this.userId,
+    required this.isDarkMode,
+    required this.fullPrompt,
+  });
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _FavoritePromptsListState createState() => _FavoritePromptsListState();
+}
+
+class _FavoritePromptsListState extends State<FavoritePromptsList> {
+  final List<Prompt> _favorites = [];
+  bool _isLoading = false;
+  bool _hasMore = true;
+  DocumentSnapshot? _lastDocument;
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMoreFavorites();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      debugPrint('End of scroll reached. Loading more favorites...');
+      _loadMoreFavorites();
+    }
+  }
+
+  Future<void> _loadMoreFavorites() async {
+    if (_isLoading || !_hasMore) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    final querySnapshot = await FavoritesFirestore()
+        .getFavoritePrompts(widget.userId, _lastDocument);
+
+    final newPrompts = querySnapshot.docs.map((doc) {
+      final promptData = doc.data() as Map<String, dynamic>;
+      final prompt = Prompt.fromMap(promptData);
+      final oneLinePrompt = prompt.prompt.substring(0, 120) +
+          (prompt.prompt.length > 120 ? '...' : '');
+      return prompt.copyWith(prompt: oneLinePrompt);
+    }).toList();
+
+    setState(() {
+      _favorites.addAll(newPrompts);
+      _isLoading = false;
+      _hasMore = querySnapshot.docs.length == 5;
+      _lastDocument =
+          querySnapshot.docs.isNotEmpty ? querySnapshot.docs.last : null;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      controller: _scrollController,
+      itemCount: _favorites.length + (_hasMore ? 1 : 0),
+      itemBuilder: (context, index) {
+        if (index == _favorites.length) {
+          return _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : const SizedBox.shrink();
+        }
+
+        final prompt = _favorites[index];
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(30.0),
+          child: FavoritePromptTile(
+            prompt: prompt,
+            isDarkMode: widget.isDarkMode,
+            onTap: () async {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TextDisplay(
+                    prompt: widget.fullPrompt,
+                    category: prompt.category,
+                    isFavorite: prompt.isFavorite,
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }
