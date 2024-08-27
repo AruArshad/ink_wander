@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:image_picker/image_picker.dart';
@@ -124,10 +125,12 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
                   SizedBox(
                     width: 100.0,
                     height: 100.0,
-                    child: Image.file(
-                      File(widget.imageUrl!),
-                      fit: BoxFit.cover, // Adjust as needed
-                    ),
+                    child: kIsWeb
+                        ? Image.network(widget.imageUrl!)
+                        : Image.file(
+                            File(widget.imageUrl!),
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   const SizedBox(width: 10.0),
                   IconButton(

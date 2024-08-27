@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/foundation.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
@@ -23,10 +24,29 @@ class CustomPromptGenerator {
         apiKey: apiKey,
         safetySettings: safetySettings);
 
-    final image = imageUrl != null ? await File(imageUrl).readAsBytes() : null;
-    // final image = await File(imageUrl).readAsBytes();
-
-    var imageParts = [];
+    Uint8List? imageData;
+    if (imageUrl != null) {
+      if (kIsWeb) {
+        // For web, fetch the image data using http
+        try {
+          final response = await http.get(Uri.parse(imageUrl));
+          if (response.statusCode == 200) {
+            imageData = response.bodyBytes;
+          } else {
+            debugPrint('Failed to load image: ${response.statusCode}');
+          }
+        } catch (e) {
+          debugPrint('Error fetching image: $e');
+        }
+      } else {
+        // For mobile, read the file
+        try {
+          imageData = await File(imageUrl).readAsBytes();
+        } catch (e) {
+          debugPrint('Error reading image file: $e');
+        }
+      }
+    }
 
     final finalprompt = TextPart('''
         Craft a compelling narrative inspired by:
@@ -47,26 +67,20 @@ class CustomPromptGenerator {
         * Word Count: $wordCount
         * Prompt: $prompt
       ''');
-    if (image != null) {
-      imageParts = [
-        DataPart('image/jpeg', image),
-      ];
-    } else {
-      imageParts = [];
+
+    List<Part> content = [finalprompt];
+    if (imageData != null) {
+      content.add(DataPart('image/jpeg', imageData));
     }
 
     try {
-      final response = await model.generateContent([
-        Content.multi([finalprompt, ...imageParts])
-      ]);
-      // final response = await model.generateContent(content);
+      final response = await model.generateContent([Content.multi(content)]);
       return response.text;
     } catch (error) {
       if (kDebugMode) {
         print('Error generating prompt: $error');
       }
-      // Handle errors gracefully (optional)
-      return null; // Or provide a fallback message
+      return null;
     }
   }
 }
