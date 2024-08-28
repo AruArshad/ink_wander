@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ink_wander/api_key.dart';
+import 'package:ink_wander/env/env.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:ink_wander/screens/text_display.dart';
 // import 'package:ink_wander/services/app_lifecycle_reactor.dart';
@@ -180,7 +180,7 @@ class HomePageState extends State<HomePage> {
 
   void _onCustomPromptGenerated(
       String prompt, String genre, int wordCount, String? imageUrl) async {
-    final promptGenerator = CustomPromptGenerator(apiKey: API_KEY);
+    final promptGenerator = CustomPromptGenerator(apiKey: Env.apiKey);
     final generatedPrompt = await promptGenerator.generateCustomPrompt(
         prompt, genre, wordCount, imageUrl);
     if (generatedPrompt != null) {

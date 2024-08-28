@@ -19,6 +19,7 @@ dependencies:
   image_picker: ^1.1.2
   provider: ^6.1.2
   http: ^1.2.2
+  envied: ^0.5.4+1
   shared_preferences: ^2.2.3
   # gma_mediation_meta: ^1.0.1
   # gma_mediation_unity: ^1.0.0
@@ -30,6 +31,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  envied_generator: ^0.5.4+1
+  build_runner: ^2.4.12
 
 flutter:
   uses-material-design: true

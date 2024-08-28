@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:ink_wander/api_key.dart';
+import 'package:ink_wander/env/env.dart';
 
 class HomePromptGenerator {
   static Future<String?> generatePrompt(BuildContext context) async {
     // The Gemini 1.5 models are versatile and work with most use cases
-    final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: API_KEY);
+    final model =
+        GenerativeModel(model: 'gemini-1.5-flash', apiKey: Env.apiKey);
     final content = [
       Content.text(
           '''I'm making an app to show random trending topic for users for them to be creative.

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:ink_wander/api_key.dart';
+import 'package:ink_wander/env/env.dart';
 
 class CategoryPrompt {
   static Future<String?> generatePrompt(String category, String prompt) async {
@@ -10,7 +10,7 @@ class CategoryPrompt {
     // The Gemini 1.5 models are versatile and work with most use cases
     final model = GenerativeModel(
         model: 'gemini-1.5-flash',
-        apiKey: API_KEY,
+        apiKey: Env.apiKey,
         safetySettings: safetySettings);
 
     final content = [
