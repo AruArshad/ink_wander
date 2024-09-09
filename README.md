@@ -19,7 +19,9 @@
 2. Open a terminal window and navigate to the project directory.
 3. Create a .env file in the root folder
 3. Replace API_KEY with your generated API key.
-4. Run as an android app.
+4. run ``` dart run build_runner build ``` in terminal.
+5. Delete existing dart build file when prompted
+4. Run as an android/web app.
 
 ```
 ink_wander/.env
