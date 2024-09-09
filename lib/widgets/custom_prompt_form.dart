@@ -115,8 +115,9 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
                 icon: const Icon(Icons.add_a_photo),
                 label: const Text('Select Image'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      widget.isDarkMode ? Colors.blueGrey : Colors.blue,
+                  backgroundColor: widget.isDarkMode
+                      ? const Color.fromARGB(255, 55, 58, 59)
+                      : Colors.blue,
                   foregroundColor: Colors.white,
                 ),
               ),
@@ -284,8 +285,9 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
               });
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  widget.isDarkMode ? Colors.blueGrey : Colors.blue,
+              backgroundColor: widget.isDarkMode
+                  ? const Color.fromARGB(255, 55, 58, 59)
+                  : Colors.blue,
               foregroundColor: Colors.white,
             ),
             child: _isLoading

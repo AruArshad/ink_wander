@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ink_wander/env/env.dart';
-import 'package:ink_wander/res/custom_colors.dart';
 import 'package:ink_wander/screens/text_display.dart';
 // import 'package:ink_wander/services/app_lifecycle_reactor.dart';
 import 'package:ink_wander/services/category_prompt.dart';
