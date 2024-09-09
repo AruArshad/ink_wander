@@ -11,10 +11,14 @@ import 'package:ink_wander/services/favorites_firestore.dart';
 import 'package:ink_wander/services/generated_custom_prompt.dart';
 import 'package:ink_wander/services/home_prompt_generator.dart';
 import 'package:ink_wander/services/theme_provider.dart';
+import 'package:ink_wander/widgets/action_button.dart';
 // import 'package:ink_wander/widgets/app_open_ad.dart';
 // import 'package:ink_wander/widgets/banner_ad.dart';
 import 'package:ink_wander/widgets/category_card.dart';
 import 'package:ink_wander/widgets/custom_prompt_form.dart';
+import 'package:ink_wander/widgets/loading_indic.dart';
+import 'package:ink_wander/widgets/particle_bg.dart';
+import 'package:ink_wander/widgets/prompt_disp.dart';
 // import 'package:ink_wander/widgets/rewarded_ad.dart';
 import 'package:ink_wander/widgets/user_info_popup.dart';
 import 'package:provider/provider.dart';
@@ -93,7 +97,7 @@ class HomePageState extends State<HomePage> {
       context: context,
       barrierDismissible: false, // Prevent user from dismissing while loading
       builder: (BuildContext context) => const Center(
-        child: CircularProgressIndicator(),
+        child: LoadingIndicator(),
       ),
     );
 
@@ -203,6 +207,19 @@ class HomePageState extends State<HomePage> {
     }
   }
 
+  void _copyToClipboard(BuildContext context) async {
+    if (_generatedPrompt != null) {
+      await Clipboard.setData(ClipboardData(text: _generatedPrompt!));
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Prompt copied to clipboard!'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -290,10 +307,7 @@ class HomePageState extends State<HomePage> {
           actions: [
             IconButton(
               icon: _isLoading
-                  ? CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(textColor),
-                      strokeWidth: 2.0,
-                    )
+                  ? const LoadingIndicator()
                   : const Icon(Icons.favorite),
               color: textColor,
               onPressed: () async {
@@ -324,93 +338,67 @@ class HomePageState extends State<HomePage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // Hero Section with Daily Prompt (dummy for now)
-                  Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: const AssetImage(
-                            'assets/images/hero_background.jpeg'),
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.2),
-                            BlendMode.multiply), // Subtle darkening effect
-                      ),
-                    ),
+                  SizedBox(
+                    height: 250, // Increased height for more visual impact
                     child: Stack(
                       children: [
-                        // Gradient overlay for a more modern look
-                        Container(
+                        // Animated background gradient
+                        AnimatedContainer(
+                          duration: const Duration(seconds: 10),
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: isDarkMode
                                   ? [
-                                      const Color(0xFF2196F3).withOpacity(
-                                          0.6), // Deep Purple Accent
-                                      const Color(0xFF1976D2)
-                                          .withOpacity(0.6), // Indigo Accent
+                                      const Color(0xFF1A237E),
+                                      const Color(0xFF0D47A1),
                                     ]
                                   : [
-                                      Colors.lightBlueAccent.withOpacity(0.7),
-                                      Colors.lightGreenAccent.withOpacity(0.7),
+                                      const Color(0xFF64B5F6),
+                                      const Color(0xFF81C784),
                                     ],
                             ),
                           ),
                         ),
-                        Center(
-                          child: _generatedPrompt == null
-                              ? CircularProgressIndicator(
-                                  color: textColor) // Show progress indicator
-                              : Text(
-                                  _generatedPrompt!,
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    fontFamily: 'Lora',
-                                    fontWeight: isDarkMode
-                                        ? FontWeight.bold
-                                        : FontWeight
-                                            .w600, // Adjust font weight for dark/light mode
-                                    color: isDarkMode
-                                        ? Colors.white
-                                        : Colors
-                                            .black87, // Adjust text color for dark/light mode
-                                    shadows: [
-                                      Shadow(
-                                        offset: const Offset(2.0, 2.0),
-                                        blurRadius: 4.0,
-                                        color: Colors.black.withOpacity(
-                                            0.2), // Adjust shadow color for dark mode
-                                      ),
-                                    ],
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                        ),
-                        Positioned(
-                          bottom: 10.0,
-                          right: 8.0,
-                          child: IconButton(
-                            icon: Icon(Icons.content_copy, color: textColor),
-                            onPressed: () async {
-                              await Clipboard.setData(
-                                  ClipboardData(text: _generatedPrompt!));
-                              // ignore: use_build_context_synchronously
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Prompt copied to clipboard!'),
-                                ),
-                              );
-                            },
+                        // Animated particles effect
+                        Positioned.fill(
+                          child: ParticleBackground(
+                            baseColor: isDarkMode
+                                ? Colors.white.withOpacity(0.1)
+                                : Colors.black.withOpacity(0.05),
                           ),
                         ),
+                        // Content
+                        Center(
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 500),
+                            child: _generatedPrompt == null
+                                ? const LoadingIndicator()
+                                : PromptDisplay(
+                                    prompt: _generatedPrompt!,
+                                    isDarkMode: isDarkMode),
+                          ),
+                        ),
+                        // Action buttons
                         Positioned(
-                          bottom: 10.0,
-                          left: 8.0,
-                          child: IconButton(
-                            icon: Icon(Icons.refresh, color: textColor),
-                            onPressed: _refreshData,
+                          bottom: 16,
+                          left: 16,
+                          right: 16,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ActionButton(
+                                icon: Icons.refresh,
+                                onPressed: _refreshData,
+                                tooltip: 'Generate new prompt',
+                              ),
+                              ActionButton(
+                                icon: Icons.content_copy,
+                                onPressed: () => _copyToClipboard(context),
+                                tooltip: 'Copy to clipboard',
+                              ),
+                            ],
                           ),
                         ),
                       ],

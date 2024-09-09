@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ink_wander/res/custom_colors.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ink_wander/widgets/loading_indic.dart';
 
 // ignore: must_be_immutable
 class CustomPromptForm extends StatefulWidget {
@@ -282,7 +283,7 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
               foregroundColor: Colors.white,
             ),
             child: _isLoading
-                ? const CircularProgressIndicator() // Show progress indicator while loading
+                ? const LoadingIndicator() // Show progress indicator while loading
                 : const Text('Generate'), // Display "Generate" when not loading
           ),
         ],

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ink_wander/models/prompts.dart';
 import 'package:ink_wander/screens/text_display.dart';
 import 'package:ink_wander/widgets/favorite_prompt_tile.dart';
+import 'package:ink_wander/widgets/loading_indic.dart';
 
 class FavoritesFirestore {
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -258,7 +259,7 @@ class _FavoritePromptsListState extends State<FavoritePromptsList> {
       itemBuilder: (context, index) {
         if (index == _favorites.length) {
           return _isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? const Center(child: LoadingIndicator())
               : const SizedBox.shrink();
         }
 
