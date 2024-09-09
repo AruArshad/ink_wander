@@ -59,7 +59,9 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
-        color: widget.isDarkMode ? Colors.grey[800] : Colors.grey.shade200,
+        color: widget.isDarkMode
+            ? const Color.fromARGB(255, 26, 25, 25)
+            : Colors.grey.shade200,
       ),
       child: Column(
         children: [
@@ -84,8 +86,9 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
                   fontSize: 17.0, // Adjust font size as needed
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Lora'),
-              fillColor:
-                  widget.isDarkMode ? CustomColors.firebaseNavy : Colors.white,
+              fillColor: widget.isDarkMode
+                  ? const Color.fromARGB(255, 41, 41, 43)
+                  : Colors.white,
               filled: true,
             ),
             maxLines: 3,

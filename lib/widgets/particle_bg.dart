@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 
 class ParticleBackground extends StatefulWidget {
   final Color baseColor;
-
   const ParticleBackground({super.key, required this.baseColor});
-
   @override
   // ignore: library_private_types_in_public_api
   _ParticleBackgroundState createState() => _ParticleBackgroundState();
@@ -15,15 +13,14 @@ class _ParticleBackgroundState extends State<ParticleBackground>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late List<Particle> particles;
-  final int particleCount = 250; // Reduced particle count
+  final int particleCount = 250;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-        vsync: this,
-        duration: const Duration(seconds: 10)) // Increased duration
-      ..repeat();
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 20))
+          ..repeat();
     particles = List.generate(particleCount, (_) => Particle(widget.baseColor));
   }
 
@@ -51,7 +48,7 @@ class _ParticleBackgroundState extends State<ParticleBackground>
 class Particle {
   late double x, y, size, speed;
   late Color color;
-  late ShapeType shape;
+  late String letter;
 
   Particle(Color baseColor) {
     reset(baseColor);
@@ -61,15 +58,19 @@ class Particle {
   void reset(Color baseColor) {
     x = Random().nextDouble();
     y = 0;
-    size = Random().nextDouble() * 5 + 0.5; // Smaller size range
-    speed = Random().nextDouble() * 0.05 + 0.01; // Much slower speed
-    color = baseColor
-        .withOpacity(Random().nextDouble() * 0.4 + 0.1); // More transparent
-    shape = ShapeType.values[Random().nextInt(ShapeType.values.length)];
+    size = Random().nextDouble() * 12 + 8; // Adjusted size for letters
+    speed = Random().nextDouble() * 0.05 + 0.01;
+    color = baseColor.withOpacity(Random().nextDouble() * 0.4 + 0.1);
+    letter = _getRandomLetter();
+  }
+
+  String _getRandomLetter() {
+    final random = Random();
+    final isUpperCase = random.nextBool();
+    final charCode = random.nextInt(26) + (isUpperCase ? 65 : 97);
+    return String.fromCharCode(charCode);
   }
 }
-
-enum ShapeType { circle, square, triangle }
 
 class ParticlePainter extends CustomPainter {
   final List<Particle> particles;
@@ -80,38 +81,27 @@ class ParticlePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     for (var particle in particles) {
-      particle.y +=
-          particle.speed * animation; // Use animation value to smooth movement
+      particle.y += particle.speed * animation;
       if (particle.y > 1) {
         particle.reset(particle.color);
       }
 
-      final paint = Paint()..color = particle.color;
       final position =
           Offset(particle.x * size.width, particle.y * size.height);
 
-      switch (particle.shape) {
-        case ShapeType.circle:
-          canvas.drawCircle(position, particle.size, paint);
-          break;
-        case ShapeType.square:
-          canvas.drawRect(
-            Rect.fromCenter(
-                center: position,
-                width: particle.size * 2,
-                height: particle.size * 2),
-            paint,
-          );
-          break;
-        case ShapeType.triangle:
-          final path = Path()
-            ..moveTo(position.dx, position.dy - particle.size)
-            ..lineTo(position.dx - particle.size, position.dy + particle.size)
-            ..lineTo(position.dx + particle.size, position.dy + particle.size)
-            ..close();
-          canvas.drawPath(path, paint);
-          break;
-      }
+      final textPainter = TextPainter(
+        text: TextSpan(
+          text: particle.letter,
+          style: TextStyle(
+            color: particle.color,
+            fontSize: particle.size,
+            fontWeight: FontWeight.bold, // Added for better visibility
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      );
+      textPainter.layout();
+      textPainter.paint(canvas, position);
     }
   }
 

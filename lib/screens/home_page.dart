@@ -290,7 +290,7 @@ class HomePageState extends State<HomePage> {
         }
       },
       child: Scaffold(
-        backgroundColor: isDarkMode ? CustomColors.firebaseNavy : Colors.white,
+        backgroundColor: isDarkMode ? Colors.black : Colors.white,
         appBar: AppBar(
           title: Text(
             'Ink Wander',

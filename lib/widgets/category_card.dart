@@ -22,7 +22,9 @@ class CategoryCard extends StatelessWidget {
         ? (isDarkMode
             ? Colors.blueAccent.shade700
             : const Color.fromARGB(255, 96, 144, 221))
-        : (isDarkMode ? Colors.grey.shade800 : Colors.grey.shade200);
+        : (isDarkMode
+            ? const Color.fromARGB(255, 26, 25, 25)
+            : Colors.grey.shade200);
     final Color textColor = isDarkMode ? Colors.white : Colors.black;
 
     return InkWell(
