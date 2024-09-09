@@ -104,6 +104,7 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
                 style: TextStyle(
                     color: _textColor(context),
                     fontSize: 17.0,
+                    fontWeight: FontWeight.bold,
                     fontFamily: 'Montserrat'),
               ),
               ElevatedButton.icon(
@@ -154,6 +155,7 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
                 style: TextStyle(
                     color: _textColor(context),
                     fontSize: 17.0,
+                    fontWeight: FontWeight.bold,
                     fontFamily: 'Montserrat'),
               ),
               const SizedBox(width: 10.0),
@@ -191,6 +193,7 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
                 style: TextStyle(
                     color: _textColor(context),
                     fontSize: 17.0,
+                    fontWeight: FontWeight.bold,
                     fontFamily: 'Montserrat'),
               ),
               const SizedBox(width: 10.0),
@@ -284,7 +287,13 @@ class _CustomPromptFormState extends State<CustomPromptForm> {
             ),
             child: _isLoading
                 ? const LoadingIndicator() // Show progress indicator while loading
-                : const Text('Generate'), // Display "Generate" when not loading
+                : const Text(
+                    'Generate',
+                    style: TextStyle(
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ), // Display "Generate" when not loading
           ),
         ],
       ),

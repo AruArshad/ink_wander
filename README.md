@@ -17,14 +17,14 @@
 
 1. Clone this repository or download the code.
 2. Open a terminal window and navigate to the project directory.
-3. Create a file named api-key.dart in the /lib folder.
-3. Replace $API_KEY with your generated API key.
+3. Create a .env file in the root folder
+3. Replace API_KEY with your generated API key.
 4. Run as an android app.
 
 ```
-ink_wander/api-key.dart
+ink_wander/.env
 
-const API_KEY = 'AIza*************************';
+API_KEY=AIza****************************
 ```
 
 ## Functionality:
