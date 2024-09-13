@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ink_wander/services/favorites_firestore.dart';
 import 'package:ink_wander/services/theme_provider.dart';
+import 'package:ink_wander/widgets/particle_bg.dart';
 // import 'package:ink_wander/widgets/banner_ad.dart';
 // import 'package:ink_wander/widgets/interstitial_ad.dart';
 import 'package:provider/provider.dart';
@@ -171,6 +172,11 @@ class _TextDisplayState extends State<TextDisplay> {
       ),
       body: Stack(
         children: [
+          Positioned.fill(
+            child: ParticleBackground(
+              isDarkMode: isDarkMode,
+            ),
+          ),
           SingleChildScrollView(
             // Make the body scrollable
             padding: const EdgeInsets.all(16.0),

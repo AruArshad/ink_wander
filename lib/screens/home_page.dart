@@ -330,216 +330,226 @@ class HomePageState extends State<HomePage> {
           ],
           backgroundColor: backgroundColor, // Use dynamic background color
         ),
-        body: RefreshIndicator(
-          onRefresh: _refreshData,
-          child: PopScope(
-            canPop: false,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 250, // Increased height for more visual impact
-                    child: Stack(
-                      children: [
-                        // Animated background gradient
-                        AnimatedContainer(
-                          duration: const Duration(seconds: 10),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: isDarkMode
-                                  ? [
-                                      const Color(0xFF1A237E),
-                                      const Color(0xFF0D47A1),
-                                    ]
-                                  : [
-                                      const Color(0xFF64B5F6),
-                                      const Color(0xFF81C784),
-                                    ],
-                            ),
-                          ),
-                        ),
-                        // Animated particles effect
-                        Positioned.fill(
-                          child: ParticleBackground(
-                            baseColor: isDarkMode
-                                ? Colors.white.withOpacity(0.1)
-                                : Colors.black.withOpacity(0.05),
-                          ),
-                        ),
-                        // Content
-                        Center(
-                          child: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 500),
-                            child: _generatedPrompt == null
-                                ? const LoadingIndicator()
-                                : PromptDisplay(
-                                    prompt: _generatedPrompt!,
-                                    isDarkMode: isDarkMode),
-                          ),
-                        ),
-                        // Action buttons
-                        Positioned(
-                          bottom: 16,
-                          left: 16,
-                          right: 16,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ActionButton(
-                                icon: Icons.refresh,
-                                onPressed: _refreshData,
-                                tooltip: 'Generate new prompt',
-                              ),
-                              ActionButton(
-                                icon: Icons.content_copy,
-                                onPressed: () => _copyToClipboard(context),
-                                tooltip: 'Copy to clipboard',
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 5.0),
-                  // Category Cards
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CategoryCard(
-                                title: 'Fiction',
-                                icon: Icons.book,
-                                isSelected: _selectedCategory == 'Fiction',
-                                onTap: () => _showConfirmationDialog(
-                                    'Fiction', _generatedPrompt!),
-                                isDarkMode: isDarkMode,
-                              ),
-                            ),
-                            const SizedBox(width: 5.0),
-                            Expanded(
-                              child: CategoryCard(
-                                title: 'Poetry',
-                                icon: Icons.edit,
-                                isSelected: _selectedCategory == 'Poetry',
-                                onTap: () => _showConfirmationDialog(
-                                    'Poetry', _generatedPrompt!),
-                                isDarkMode: isDarkMode,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 5.0),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CategoryCard(
-                                title: 'Speechwriting',
-                                icon: Icons.speaker,
-                                isSelected:
-                                    _selectedCategory == 'Speechwriting',
-                                onTap: () => _showConfirmationDialog(
-                                    'Speechwriting', _generatedPrompt!),
-                                isDarkMode: isDarkMode,
-                              ),
-                            ),
-                            const SizedBox(width: 5.0),
-                            Expanded(
-                              child: CategoryCard(
-                                title: 'Playwriting',
-                                icon: Icons.play_arrow,
-                                isSelected: _selectedCategory == 'Playwriting',
-                                onTap: () => _showConfirmationDialog(
-                                    'Playwriting', _generatedPrompt!),
-                                isDarkMode: isDarkMode,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 5.0),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CategoryCard(
-                                title: 'Non-Fiction',
-                                icon: Icons.newspaper,
-                                isSelected: _selectedCategory == 'Non-Fiction',
-                                onTap: () => _showConfirmationDialog(
-                                    'Non-Fiction', _generatedPrompt!),
-                                isDarkMode: isDarkMode,
-                              ),
-                            ),
-                            const SizedBox(width: 5.0),
-                            Expanded(
-                              child: CategoryCard(
-                                title: 'Screenwriting',
-                                icon: Icons.theaters,
-                                isSelected:
-                                    _selectedCategory == 'Screenwriting',
-                                onTap: () => _showConfirmationDialog(
-                                    'Screenwriting', _generatedPrompt!),
-                                isDarkMode: isDarkMode,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 5.0),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CategoryCard(
-                                title: 'Romance',
-                                icon: Icons.favorite_border_outlined,
-                                isSelected: _selectedCategory == 'Romance',
-                                onTap: () => _showConfirmationDialog(
-                                    'Romance', _generatedPrompt!),
-                                isDarkMode: isDarkMode,
-                              ),
-                            ),
-                            const SizedBox(width: 5.0),
-                            Expanded(
-                              child: CategoryCard(
-                                title: 'Mystery',
-                                icon: Icons.question_mark,
-                                isSelected: _selectedCategory == 'Mystery',
-                                onTap: () => _showConfirmationDialog(
-                                    'Mystery', _generatedPrompt!),
-                                isDarkMode: isDarkMode,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 5.0),
-                  // const MyBannerAdWidget(),
-                  // const SizedBox(height: 10.0),
-                  CustomPromptForm(
-                    onGenerate: _onCustomPromptGenerated,
-                    isDarkMode: isDarkMode,
-                    promptController: _promptController,
-                    selectedGenre: _selectedGenre,
-                    imageUrl: _imageUrl,
-                  ),
-                  const SizedBox(height: 10.0),
-                  // const MyBannerAdWidget(),
-                  // const SizedBox(height: 10.0),
-                  // ElevatedButton(
-                  //   onPressed: () => _rewardedAdWidget.showRewardedAd(),
-                  //   child: const Text('Sponsored Video'),
-                  // ),
-                  // const SizedBox(height: 10.0),
-                ],
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: ParticleBackground(
+                isDarkMode: isDarkMode,
               ),
             ),
-          ),
+            RefreshIndicator(
+              onRefresh: _refreshData,
+              child: PopScope(
+                canPop: false,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 250, // Increased height for more visual impact
+                        child: Stack(
+                          children: [
+                            // Animated background gradient
+                            AnimatedContainer(
+                              duration: const Duration(seconds: 10),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: isDarkMode
+                                      ? [
+                                          const Color(0xFF1A237E),
+                                          const Color(0xFF0D47A1),
+                                        ]
+                                      : [
+                                          const Color(0xFF64B5F6),
+                                          const Color(0xFF81C784),
+                                        ],
+                                ),
+                              ),
+                            ),
+                            // Animated particles effect
+                            Positioned.fill(
+                              child: ParticleBackground(
+                                isDarkMode: isDarkMode,
+                              ),
+                            ),
+                            // Content
+                            Center(
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 500),
+                                child: _generatedPrompt == null
+                                    ? const LoadingIndicator()
+                                    : PromptDisplay(
+                                        prompt: _generatedPrompt!,
+                                        isDarkMode: isDarkMode),
+                              ),
+                            ),
+                            // Action buttons
+                            Positioned(
+                              bottom: 16,
+                              left: 16,
+                              right: 16,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ActionButton(
+                                    icon: Icons.refresh,
+                                    onPressed: _refreshData,
+                                    tooltip: 'Generate new prompt',
+                                  ),
+                                  ActionButton(
+                                    icon: Icons.content_copy,
+                                    onPressed: () => _copyToClipboard(context),
+                                    tooltip: 'Copy to clipboard',
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 5.0),
+                      // Category Cards
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CategoryCard(
+                                    title: 'Fiction',
+                                    icon: Icons.book,
+                                    isSelected: _selectedCategory == 'Fiction',
+                                    onTap: () => _showConfirmationDialog(
+                                        'Fiction', _generatedPrompt!),
+                                    isDarkMode: isDarkMode,
+                                  ),
+                                ),
+                                const SizedBox(width: 5.0),
+                                Expanded(
+                                  child: CategoryCard(
+                                    title: 'Poetry',
+                                    icon: Icons.edit,
+                                    isSelected: _selectedCategory == 'Poetry',
+                                    onTap: () => _showConfirmationDialog(
+                                        'Poetry', _generatedPrompt!),
+                                    isDarkMode: isDarkMode,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 5.0),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CategoryCard(
+                                    title: 'Speechwriting',
+                                    icon: Icons.speaker,
+                                    isSelected:
+                                        _selectedCategory == 'Speechwriting',
+                                    onTap: () => _showConfirmationDialog(
+                                        'Speechwriting', _generatedPrompt!),
+                                    isDarkMode: isDarkMode,
+                                  ),
+                                ),
+                                const SizedBox(width: 5.0),
+                                Expanded(
+                                  child: CategoryCard(
+                                    title: 'Playwriting',
+                                    icon: Icons.play_arrow,
+                                    isSelected:
+                                        _selectedCategory == 'Playwriting',
+                                    onTap: () => _showConfirmationDialog(
+                                        'Playwriting', _generatedPrompt!),
+                                    isDarkMode: isDarkMode,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 5.0),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CategoryCard(
+                                    title: 'Non-Fiction',
+                                    icon: Icons.newspaper,
+                                    isSelected:
+                                        _selectedCategory == 'Non-Fiction',
+                                    onTap: () => _showConfirmationDialog(
+                                        'Non-Fiction', _generatedPrompt!),
+                                    isDarkMode: isDarkMode,
+                                  ),
+                                ),
+                                const SizedBox(width: 5.0),
+                                Expanded(
+                                  child: CategoryCard(
+                                    title: 'Screenwriting',
+                                    icon: Icons.theaters,
+                                    isSelected:
+                                        _selectedCategory == 'Screenwriting',
+                                    onTap: () => _showConfirmationDialog(
+                                        'Screenwriting', _generatedPrompt!),
+                                    isDarkMode: isDarkMode,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 5.0),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CategoryCard(
+                                    title: 'Romance',
+                                    icon: Icons.favorite_border_outlined,
+                                    isSelected: _selectedCategory == 'Romance',
+                                    onTap: () => _showConfirmationDialog(
+                                        'Romance', _generatedPrompt!),
+                                    isDarkMode: isDarkMode,
+                                  ),
+                                ),
+                                const SizedBox(width: 5.0),
+                                Expanded(
+                                  child: CategoryCard(
+                                    title: 'Mystery',
+                                    icon: Icons.question_mark,
+                                    isSelected: _selectedCategory == 'Mystery',
+                                    onTap: () => _showConfirmationDialog(
+                                        'Mystery', _generatedPrompt!),
+                                    isDarkMode: isDarkMode,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 5.0),
+                      // const MyBannerAdWidget(),
+                      // const SizedBox(height: 10.0),
+                      CustomPromptForm(
+                        onGenerate: _onCustomPromptGenerated,
+                        isDarkMode: isDarkMode,
+                        promptController: _promptController,
+                        selectedGenre: _selectedGenre,
+                        imageUrl: _imageUrl,
+                      ),
+                      const SizedBox(height: 15.0),
+                      // const MyBannerAdWidget(),
+                      // const SizedBox(height: 10.0),
+                      // ElevatedButton(
+                      //   onPressed: () => _rewardedAdWidget.showRewardedAd(),
+                      //   child: const Text('Sponsored Video'),
+                      // ),
+                      // const SizedBox(height: 10.0),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
