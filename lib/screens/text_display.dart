@@ -1,4 +1,4 @@
-// import 'dart:async';
+import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:ink_wander/services/favorites_firestore.dart';
 import 'package:ink_wander/services/theme_provider.dart';
 import 'package:ink_wander/widgets/particle_bg.dart';
-// import 'package:ink_wander/widgets/banner_ad.dart';
-// import 'package:ink_wander/widgets/interstitial_ad.dart';
+import 'package:ink_wander/widgets/banner_ad.dart';
+import 'package:ink_wander/widgets/interstitial_ad.dart';
 import 'package:provider/provider.dart';
 
 class TextDisplay extends StatefulWidget {
@@ -27,18 +27,18 @@ class TextDisplay extends StatefulWidget {
 
 class _TextDisplayState extends State<TextDisplay> {
   late bool _isFavorited;
-  // bool _canShowAd = false;
+  bool _canShowAd = false;
 
   @override
   void initState() {
     super.initState();
     _isFavorited = widget.isFavorite;
-    // Timer(const Duration(seconds: 5), () {
-    //   setState(() {
-    //     debugPrint("Timer ended");
-    //     _canShowAd = true;
-    //   });
-    // });
+    Timer(const Duration(seconds: 5), () {
+      setState(() {
+        debugPrint("Timer ended");
+        _canShowAd = true;
+      });
+    });
   }
 
   @override
@@ -182,7 +182,7 @@ class _TextDisplayState extends State<TextDisplay> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                // if (_canShowAd) const InterstitialAdWidget(),
+                if (_canShowAd) const InterstitialAdWidget(),
                 Center(
                   child: Text(
                     widget.prompt,
@@ -197,12 +197,12 @@ class _TextDisplayState extends State<TextDisplay> {
             ),
           ),
           // Fixed Banner Ad at the bottom
-          // const Positioned(
-          //   bottom: 0,
-          //   left: 0,
-          //   right: 0,
-          //   child: MyBannerAdWidget(),
-          // ),
+          const Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: MyBannerAdWidget(),
+          ),
         ],
       ),
     );

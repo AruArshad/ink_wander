@@ -4,21 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ink_wander/env/env.dart';
 import 'package:ink_wander/screens/text_display.dart';
-// import 'package:ink_wander/services/app_lifecycle_reactor.dart';
+import 'package:ink_wander/services/app_lifecycle_reactor.dart';
 import 'package:ink_wander/services/category_prompt.dart';
 import 'package:ink_wander/services/favorites_firestore.dart';
 import 'package:ink_wander/services/generated_custom_prompt.dart';
 import 'package:ink_wander/services/home_prompt_generator.dart';
 import 'package:ink_wander/services/theme_provider.dart';
 import 'package:ink_wander/widgets/action_button.dart';
-// import 'package:ink_wander/widgets/app_open_ad.dart';
-// import 'package:ink_wander/widgets/banner_ad.dart';
+import 'package:ink_wander/widgets/app_open_ad.dart';
+import 'package:ink_wander/widgets/banner_ad.dart';
 import 'package:ink_wander/widgets/category_card.dart';
 import 'package:ink_wander/widgets/custom_prompt_form.dart';
 import 'package:ink_wander/widgets/loading_indic.dart';
 import 'package:ink_wander/widgets/particle_bg.dart';
 import 'package:ink_wander/widgets/prompt_disp.dart';
-// import 'package:ink_wander/widgets/rewarded_ad.dart';
+import 'package:ink_wander/widgets/rewarded_ad.dart';
 import 'package:ink_wander/widgets/user_info_popup.dart';
 import 'package:provider/provider.dart';
 
@@ -39,8 +39,8 @@ class HomePageState extends State<HomePage> {
   final TextEditingController _promptController = TextEditingController();
   String _selectedGenre = 'Fiction';
   String? _imageUrl;
-  // final _rewardedAdWidget = RewardedAdWidget();
-  // late AppLifecycleReactor _appLifecycleReactor;
+  final _rewardedAdWidget = RewardedAdWidget();
+  late AppLifecycleReactor _appLifecycleReactor;
 
   void _showUserInfoPopup() {
     showDialog(
@@ -223,16 +223,16 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _showGeneratedPrompt();
-    // _rewardedAdWidget.initRewardedAd();
-    // AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
-    // _appLifecycleReactor =
-    //     AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
-    // _appLifecycleReactor.listenToAppStateChanges();
+    _rewardedAdWidget.initRewardedAd();
+    AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
+    _appLifecycleReactor =
+        AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
+    _appLifecycleReactor.listenToAppStateChanges();
   }
 
   @override
   void dispose() {
-    // _rewardedAdWidget.disposeRewardedAd();
+    _rewardedAdWidget.disposeRewardedAd();
     super.dispose();
   }
 
@@ -527,8 +527,8 @@ class HomePageState extends State<HomePage> {
                         ),
                       ),
                       const SizedBox(height: 5.0),
-                      // const MyBannerAdWidget(),
-                      // const SizedBox(height: 10.0),
+                      const MyBannerAdWidget(),
+                      const SizedBox(height: 10.0),
                       CustomPromptForm(
                         onGenerate: _onCustomPromptGenerated,
                         isDarkMode: isDarkMode,
@@ -537,13 +537,13 @@ class HomePageState extends State<HomePage> {
                         imageUrl: _imageUrl,
                       ),
                       const SizedBox(height: 15.0),
-                      // const MyBannerAdWidget(),
-                      // const SizedBox(height: 10.0),
-                      // ElevatedButton(
-                      //   onPressed: () => _rewardedAdWidget.showRewardedAd(),
-                      //   child: const Text('Sponsored Video'),
-                      // ),
-                      // const SizedBox(height: 10.0),
+                      const MyBannerAdWidget(),
+                      const SizedBox(height: 10.0),
+                      ElevatedButton(
+                        onPressed: () => _rewardedAdWidget.showRewardedAd(),
+                        child: const Text('Sponsored Video'),
+                      ),
+                      const SizedBox(height: 10.0),
                     ],
                   ),
                 ),

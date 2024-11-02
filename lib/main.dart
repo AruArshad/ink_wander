@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ink_wander/utils/firebase_options.dart';
-// import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:ink_wander/screens/home_page.dart';
 import 'package:ink_wander/services/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -14,11 +14,11 @@ import 'package:ink_wander/screens/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // MobileAds.instance.initialize().then((initializationStatus) {
-  //   initializationStatus.adapterStatuses.forEach((key, value) {
-  //     debugPrint('Adapter status for $key: ${value.description}');
-  //   });
-  // });
+  MobileAds.instance.initialize().then((initializationStatus) {
+    initializationStatus.adapterStatuses.forEach((key, value) {
+      debugPrint('Adapter status for $key: ${value.description}');
+    });
+  });
 
   // Set a wait timer
   //   return Future.delayed(const Duration(seconds: 5)); // Wait for 5 seconds
